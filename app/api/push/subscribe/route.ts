@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server'
+import {requireInternalUser} from '@/lib/server-auth'
+export async function POST(req:Request){const a=await requireInternalUser(req);if(!a.ok)return NextResponse.json({error:a.error},{status:a.status});const sub=await req.json();const {error}=await a.userClient.from('push_subscription').upsert({staff_id:a.staff.id,endpoint:sub.endpoint,p256dh:sub.keys?.p256dh,auth_key:sub.keys?.auth,user_agent:req.headers.get('user-agent')},{onConflict:'endpoint'});if(error)return NextResponse.json({error:error.message},{status:500});return NextResponse.json({ok:true})}

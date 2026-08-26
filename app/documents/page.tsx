@@ -1,0 +1,39 @@
+'use client'
+import { useEffect,useMemo,useState } from 'react'
+import { Mail, Paperclip, RefreshCw } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
+import type { Project, ProjectFile } from '@/lib/types'
+
+type Contact={id:string;name:string;position:string|null;email:string|null;phone:string|null;is_primary:boolean}
+type SendLog={id:string;to_email:string;subject:string;document_type:string;created_at:string;status:string}
+const types=['자료요청 메일','보완자료 요청','진행상황 보고','인허가 착수 안내','인허가 완료 안내','견적서 발송 메일','계약서 발송 메일','세금계산서 발행 안내','미수금·입금 요청','회의 후속 메일']
+
+export default function Documents(){
+ const [projects,setProjects]=useState<Project[]>([]);const [projectId,setProjectId]=useState('');const [type,setType]=useState(types[0]);const [extra,setExtra]=useState('');const [copied,setCopied]=useState(false);const [sending,setSending]=useState(false);const [result,setResult]=useState('')
+ const [contacts,setContacts]=useState<Contact[]>([]);const [to,setTo]=useState('');const [files,setFiles]=useState<ProjectFile[]>([]);const [selectedFiles,setSelectedFiles]=useState<string[]>([]);const [logs,setLogs]=useState<SendLog[]>([]);const [staff,setStaff]=useState<any>(null)
+ async function load(){
+   const {data:{user}}=await supabase.auth.getUser(); if(!user)return
+   const {data:s}=await supabase.from('staff').select('id,name,role,department').eq('id',user.id).maybeSingle();setStaff(s)
+   let q=supabase.from('project').select('*,client:client_id(name,contact_name,email),manager:manager_id(name)').is('deleted_at',null).neq('status','취소').order('created_at',{ascending:false})
+   if(s?.role==='STAFF') q=q.eq('manager_id',user.id)
+   const {data}=await q;setProjects((data||[]) as any);if(data?.[0])setProjectId(data[0].id)
+   const {data:l}=await supabase.from('email_send_log').select('id,to_email,subject,document_type,created_at,status').order('created_at',{ascending:false}).limit(8);setLogs((l||[]) as any)
+ }
+ useEffect(()=>{load()},[])
+ useEffect(()=>{(async()=>{setSelectedFiles([]);setContacts([]);setFiles([]);if(!projectId)return;const p:any=projects.find(x=>x.id===projectId);const [{data:c},{data:f}]=await Promise.all([supabase.from('client_contact').select('id,name,position,email,phone,is_primary').eq('client_id',p.client_id).is('deleted_at',null).order('is_primary',{ascending:false}),supabase.from('project_file').select('*').eq('project_id',projectId).order('created_at',{ascending:false})]);setContacts((c||[]) as any);setFiles((f||[]) as any);const first=(c||[]).find((x:any)=>x.is_primary&&x.email)||(c||[]).find((x:any)=>x.email);setTo(first?.email||p?.client?.email||'')})()},[projectId,projects])
+ const p:any=projects.find(x=>x.id===projectId); const subject=p?`[신양파트너스] ${p.project_name} ${type}`:''
+ const text=useMemo(()=>{if(!p)return '';const c=p.client?.name||'거래처';const project=p.project_name;const due=p.due_date?`\n예정 일정: ${p.due_date}`:'';const common=`${c} 담당자님, 안녕하세요.\n신양파트너스입니다.\n\n`
+   if(type==='자료요청 메일')return `${common}현재 진행 중인 「${project}」 업무와 관련하여 검토 및 인허가 진행을 위해 필요한 자료를 요청드립니다.\n\n요청자료\n- 사업자 기본서류\n- 공정 및 시설 관련 자료\n- 관련 도면 및 산정근거 자료\n\n${extra||'추가 확인이 필요한 자료는 검토 후 별도 안내드리겠습니다.'}${due}\n\n확인 후 회신 부탁드립니다. 감사합니다.`
+   if(type==='보완자료 요청')return `${common}「${project}」 관련 보완사항이 있어 자료를 요청드립니다.\n\n${extra||'- 보완요청 내용 확인\n- 관련 증빙 및 수정자료 회신'}${due}\n\n자료 수령 후 즉시 반영하여 후속 절차 진행하겠습니다.`
+   if(type==='진행상황 보고')return `${common}「${project}」 진행상황을 아래와 같이 안내드립니다.\n\n업무분야: ${p.permit_type}\n현재상태: ${p.status}\n담당자: ${p.manager?.name||'-'}${due}\n\n${extra||'현재 단계별 검토를 진행 중이며 주요 변동사항 발생 시 즉시 공유드리겠습니다.'}\n\n감사합니다.`
+   if(type==='인허가 착수 안내')return `${common}「${project}」 인허가 업무 착수 안내드립니다.\n\n담당 분야: ${p.permit_type}\n현재 상태: ${p.status}${due}\n\n${extra||'필요자료 확인 후 순차적으로 검토·작성하여 진행드리겠습니다.'}`
+   if(type==='인허가 완료 안내')return `${common}「${project}」 관련 인허가 업무가 완료되어 안내드립니다.\n\n업무분야: ${p.permit_type}\n${extra||'완료 서류 및 관련 자료는 첨부파일을 확인 부탁드립니다.'}\n\n그동안 협조해 주셔서 감사합니다.`
+   if(type==='견적서 발송 메일')return `${common}요청하신 「${project}」 관련 견적서를 송부드립니다.\n\n${extra||'첨부 견적서의 업무범위, 금액 및 조건을 확인 부탁드립니다. 문의사항 또는 조정이 필요한 사항이 있으시면 편하게 연락 주십시오.'}\n\n감사합니다.`
+   if(type==='계약서 발송 메일')return `${common}「${project}」 관련 계약서를 송부드립니다.\n\n${extra||'계약 내용 검토 후 이상이 없으시면 서명·날인본 회신 부탁드립니다.'}\n\n감사합니다.`
+   if(type==='세금계산서 발행 안내')return `${common}「${project}」 관련 세금계산서 발행 안내드립니다.\n\n${extra||'발행 내역 확인 부탁드리며, 수정이 필요한 사항이 있으시면 회신 부탁드립니다.'}\n\n감사합니다.`
+   if(type==='미수금·입금 요청')return `${common}「${project}」 관련 청구 건의 입금일정 확인 부탁드립니다.\n\n${extra||'기 발행된 세금계산서 및 청구내역 기준으로 입금 예정일을 회신 부탁드립니다.'}\n\n확인 부탁드리며 감사합니다.`
+   return `${common}금일 「${project}」 관련 협의사항을 정리하여 전달드립니다.\n\n${extra||'- 주요 협의사항\n- 요청자료 및 담당자\n- 향후 일정 및 후속조치'}${due}\n\n내용 중 수정 또는 추가할 사항이 있으시면 회신 부탁드립니다.`
+ },[p,type,extra])
+ async function send(){if(!to){setResult('받는 이메일을 입력해 주세요.');return}if(!confirm(`${to} 주소로 실제 메일을 발송할까요?`))return;setSending(true);setResult('');const {data:{session}}=await supabase.auth.getSession();const r=await fetch('/api/email/send',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${session?.access_token||''}`},body:JSON.stringify({to,subject,text,projectId,documentType:type,attachmentIds:selectedFiles})});const d=await r.json();setSending(false);setResult(r.ok?'메일을 발송했습니다.':(d.error||'메일 발송 실패'));if(r.ok)load()}
+ return <><div className="pageHead"><div><h1>문서 자동작성 센터</h1><p>프로젝트 정보를 불러와 거래처 문서를 자동 작성하고, 회사서명·첨부파일과 함께 실제 메일로 발송합니다.</p></div></div><div className="twoCol"><div className="card formPanel"><label>프로젝트<select value={projectId} onChange={e=>setProjectId(e.target.value)}><option value="">선택</option>{projects.map((x:any)=><option key={x.id} value={x.id}>{x.client?.name} · {x.project_name}</option>)}</select></label>{staff?.role==='STAFF'&&<p className="hint">직원 계정은 본인 담당 프로젝트만 표시됩니다.</p>}<label>문서 종류<select value={type} onChange={e=>setType(e.target.value)}>{types.map(v=><option key={v}>{v}</option>)}</select></label><label>받는 이메일<select value={to} onChange={e=>setTo(e.target.value)}><option value={p?.client?.email||''}>{p?.client?.email?`거래처 기본 · ${p.client.email}`:'직접 입력'}</option>{contacts.filter(x=>x.email).map(x=><option key={x.id} value={x.email||''}>{x.name}{x.position?` ${x.position}`:''} · {x.email}</option>)}</select></label><label>직접 이메일<input value={to} onChange={e=>setTo(e.target.value)} placeholder="recipient@example.com"/></label><label>추가 내용<textarea value={extra} onChange={e=>setExtra(e.target.value)} placeholder="특별히 넣을 요청사항, 보완내용, 회의내용 등을 입력하세요."/></label>{files.length>0&&<div className="attachmentBox"><b><Paperclip size={15}/> 프로젝트 첨부파일</b>{files.map(f=><label key={f.id} className="checkRow"><input type="checkbox" checked={selectedFiles.includes(f.id)} onChange={e=>setSelectedFiles(v=>e.target.checked?[...v,f.id]:v.filter(id=>id!==f.id))}/><span>{f.file_name}</span></label>)}</div>}{result&&<p className={result.includes('발송했습니다')?'success':'error'}>{result}</p>}</div><div className="card preview"><div className="previewHead"><b>자동작성 결과</b><div className="toolbar"><button className="secondary" onClick={async()=>{await navigator.clipboard.writeText(text);setCopied(true);setTimeout(()=>setCopied(false),1200)}}>{copied?'복사됨':'복사'}</button><button className="primary" disabled={!text||sending} onClick={send}><Mail size={14}/>{sending?' 발송 중':' 실제 메일 발송'}</button></div></div><p className="subjectLine"><b>제목</b> {subject}</p><pre>{text||'프로젝트를 선택하세요.'}</pre><p className="hint">발송 시 로그인한 직원의 실제 신양파트너스 HTML 메일서명이 자동으로 붙습니다.</p></div></div><div className="card" style={{marginTop:16}}><div className="previewHead"><b>최근 발송 이력</b><button className="secondary" onClick={load}><RefreshCw size={14}/> 새로고침</button></div>{logs.length?logs.map(l=><div key={l.id} className="historyRow"><div><b>{l.document_type}</b><p>{l.to_email} · {l.subject}</p></div><span>{new Date(l.created_at).toLocaleString('ko-KR')}</span></div>):<p className="hint">아직 발송 이력이 없습니다.</p>}</div></>
+}

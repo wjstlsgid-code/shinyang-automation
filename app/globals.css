@@ -1,0 +1,1332 @@
+*{box-sizing:border-box}html,body{margin:0;background:#f5f7fa;color:#16202a;font-family:Arial,'Apple SD Gothic Neo','Noto Sans KR',sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.sidebar{width:230px;background:#13202b;color:#dce5ec;padding:24px 14px;display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0}.brand{display:flex;gap:10px;align-items:center;padding:2px 10px 24px}.brand strong,.brand small{display:block}.brand small{font-size:11px;color:#91a2af;margin-top:2px}.sidebar nav{display:grid;gap:4px}.sidebar nav a{display:flex;gap:10px;align-items:center;color:#b9c7d1;text-decoration:none;padding:11px 12px;border-radius:8px;font-size:14px}.sidebar nav a:hover,.sidebar nav a.active{background:#233442;color:white}.profile{margin-top:auto;border-top:1px solid #2b3a46;padding:16px 8px 0;display:flex;align-items:center;justify-content:space-between}.profile b,.profile small{display:block}.profile small{font-size:11px;color:#8ea0ad;margin-top:3px}.profile button{background:none;border:0;color:#9fb0bc}.content{margin-left:230px;padding:34px;width:calc(100% - 230px)}.pageHead{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}.pageHead h1{font-size:26px;margin:0 0 5px}.pageHead p{margin:0;color:#657481;font-size:13px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid #e1e6ea;border-radius:12px;padding:18px;box-shadow:0 1px 2px #00000008}.metric span{color:#687783;font-size:12px}.metric strong{display:block;font-size:26px;margin-top:8px}.section{margin-top:18px}.section h2{font-size:16px;margin:0 0 12px}.tableWrap{overflow:auto;background:#fff;border:1px solid #e1e6ea;border-radius:12px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #edf0f2;white-space:nowrap}th{background:#f8fafb;color:#657481;font-size:12px}tr:last-child td{border-bottom:0}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf3f6;font-size:11px}.badge.warn{background:#fff2d9;color:#8a5a00}.badge.danger{background:#ffe7e7;color:#a22}.badge.ok{background:#e8f6ef;color:#26704a}.primary{background:#172d3d;color:white;border:0;border-radius:8px;padding:9px 13px}.secondary{background:#fff;color:#24333d;border:1px solid #d7dde1;border-radius:8px;padding:9px 13px}.dangerBtn{background:#fff;color:#a22;border:1px solid #efcccc;border-radius:7px;padding:6px 9px}.toolbar{display:flex;gap:8px;align-items:center}.modalBack{position:fixed;inset:0;background:#0005;display:grid;place-items:center;z-index:20}.modal{width:min(620px,92vw);max-height:86vh;overflow:auto;background:white;border-radius:14px;padding:22px}.modal h2{margin-top:0}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.formGrid .full{grid-column:1/-1}label{display:grid;gap:6px;font-size:12px;color:#54636e}input,select,textarea{border:1px solid #d5dde2;border-radius:8px;padding:10px;background:white;color:#17232b}textarea{min-height:84px;resize:vertical}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.error{background:#fff0f0;color:#9b2c2c;padding:9px 10px;border-radius:7px;font-size:12px}.empty{padding:34px;text-align:center;color:#7b8993}.loginWrap,.center{min-height:100vh;display:grid;place-items:center;padding:20px}.loginCard{width:min(390px,94vw);background:white;border:1px solid #e1e6ea;border-radius:14px;padding:30px;box-shadow:0 8px 35px #16202a12;display:grid;gap:14px}.loginCard h1{margin:0;text-align:center;font-size:23px}.loginCard>p{text-align:center;color:#7a8790;margin:-7px 0 5px}.loginLogo{width:50px;height:50px;border-radius:12px;background:#172d3d;color:#fff;display:grid;place-items:center;margin:auto}.wide{width:100%;padding:11px}.notice{background:white;border:1px solid #ddd;border-radius:12px;padding:25px;max-width:480px}.notice p{color:#667;margin-bottom:0}.money{text-align:right;font-variant-numeric:tabular-nums}@media(max-width:1000px){.grid4{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.sidebar{width:72px;padding:20px 8px}.brand div,.sidebar nav a:not(.active){font-size:0}.brand{justify-content:center;padding-inline:0}.sidebar nav a{justify-content:center}.sidebar nav a.active{font-size:0}.profile div{display:none}.profile{justify-content:center}.content{margin-left:72px;width:calc(100% - 72px);padding:20px}.grid4{grid-template-columns:1fr 1fr}.formGrid{grid-template-columns:1fr}.formGrid .full{grid-column:auto}}
+.filterCard{display:flex;align-items:end;justify-content:space-between;gap:20px}.filterCard label{min-width:min(620px,75vw)}.progressText{font-size:13px;color:#64737d}.progress{height:8px;background:#e7ecef;border-radius:99px;overflow:hidden;margin:12px 0 18px}.progress span{display:block;height:100%;background:#172d3d;border-radius:99px;transition:width .2s}.doneText{text-decoration:line-through;color:#82909a}.inlineInput{min-width:280px;padding:7px 9px}.alertList{display:grid;gap:10px}.alertCard{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:inherit;background:#fff;border:1px solid #e1e6ea;border-left:4px solid #99a7b0;border-radius:10px;padding:15px 17px}.alertCard.danger{border-left-color:#b94c4c}.alertCard.warn{border-left-color:#b48223}.alertCard.info{border-left-color:#59798f}.alertCard div>b{margin-left:9px}.alertCard p{margin:6px 0 0;color:#6f7d87;font-size:12px}.alertCard>strong{font-size:12px;color:#6b7881}.twoCol{display:grid;grid-template-columns:minmax(300px,.8fr) minmax(420px,1.2fr);gap:16px}.formPanel{display:grid;gap:16px;align-content:start}.preview{min-height:520px}.previewHead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #edf0f2;padding-bottom:12px}.preview pre{white-space:pre-wrap;font:13px/1.75 Arial,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;color:#26353f}.assistantCard{max-width:900px;background:#fff;border:1px solid #e1e6ea;border-radius:14px;padding:16px}.chat{height:480px;overflow:auto;background:#f8fafb;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:10px}.bubble{max-width:78%;padding:11px 13px;border-radius:12px;font-size:13px;line-height:1.55}.bubble.assistant{align-self:flex-start;background:#fff;border:1px solid #dde4e8}.bubble.user{align-self:flex-end;background:#172d3d;color:#fff}.chatInput{display:flex;gap:8px;margin-top:12px}.chatInput input{flex:1}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chips button{padding:6px 10px;font-size:12px}@media(max-width:900px){.twoCol{grid-template-columns:1fr}.filterCard{align-items:stretch;flex-direction:column}.filterCard label{min-width:0}.preview{min-height:380px}}
+.tableLink{color:#172d3d;text-decoration:none}.tableLink:hover{text-decoration:underline}.compactInput{padding:7px 8px;max-width:160px}.badge button,.badge{display:inline-flex;gap:5px;align-items:center;border:0}.smallMetric{font-size:17px!important}.backLink{display:inline-flex;align-items:center;gap:5px;color:#61717c;text-decoration:none;font-size:12px;margin-bottom:8px}.centerInline{padding:80px;text-align:center;color:#687783}.listCard{padding:14px}.checkRow{display:flex;grid-template-columns:none;align-items:center;gap:9px;padding:9px 4px;border-bottom:1px solid #edf0f2}.checkRow:last-child{border-bottom:0}.checkRow input{width:16px;height:16px}.checkRow span{flex:1}.checkRow small{font-size:10px;color:#8a5a00;background:#fff2d9;border-radius:99px;padding:3px 6px}.sectionTitle{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.sectionTitle h2{margin:0}.uploadBtn{display:inline-flex;align-items:center;gap:6px;cursor:pointer}.fileRow{display:flex;align-items:center;justify-content:space-between;padding:10px 4px;border-bottom:1px solid #edf0f2}.fileRow:last-child{border-bottom:0}.fileRow b,.fileRow small{display:block}.fileRow small{color:#84919a;margin-top:4px}.iconBtn{padding:7px}.clickRow{cursor:pointer}.clickRow:hover td{background:#f8fafb}.quoteSheet{width:min(800px,94vw);max-height:94vh;overflow:auto;background:white;border-radius:12px;padding:36px 44px}.quoteTools{justify-content:flex-end;margin-bottom:25px}.quoteHeader{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #172d3d;padding-bottom:18px}.quoteHeader h1{letter-spacing:12px;margin:6px 0 0}.quoteHeader small{color:#667}.quoteHeader>div:last-child{text-align:right;font-size:12px}.quoteTo{padding:30px 0 16px}.quoteTo h2{font-size:20px}.quoteTo p{color:#667}.quoteTable{border:1px solid #ccd5db}.quoteTable th{width:160px;background:#f5f7f9}.quoteTable td,.quoteTable th{border:1px solid #dfe5e9}.quoteTotal td,.quoteTotal th{font-size:18px;font-weight:bold}.quoteCompany{text-align:right;margin-top:34px}.quoteCompany b{font-size:18px}.quoteCompany p{font-size:12px;color:#77848c}.subjectLine{font-size:12px;padding:10px 0;border-bottom:1px solid #edf0f2}.success{background:#e8f6ef;color:#26704a;padding:9px 10px;border-radius:7px;font-size:12px}.aiTag{display:inline-flex!important;align-items:center;gap:4px;font-size:10px;font-weight:bold;background:#eef0ff;color:#4b4e9b;padding:3px 6px;border-radius:99px;margin-bottom:6px}
+@media print{body{background:white}.sidebar,.content>*:not(.modalBack),.noPrint{display:none!important}.content{margin:0!important;padding:0!important;width:100%!important}.modalBack{position:static!important;background:none!important;display:block!important}.quoteSheet{width:100%!important;max-height:none!important;overflow:visible!important;border-radius:0!important;padding:10mm!important}.quoteHeader h1{font-size:28px}.quoteTable{font-size:12px}}
+
+/* v4.2 responsive shell */
+.mobileHeader,.mobileBottomNav,.drawerClose{display:none}.drawerBackdrop{display:none}.iconOnly{border:0;background:transparent;padding:8px;color:#172d3d}.mobileBrand{display:flex;align-items:center;gap:8px;letter-spacing:.4px}.sidebar nav a span{display:inline}.content{max-width:1600px}.tableWrap{-webkit-overflow-scrolling:touch}.tableWrap table{min-width:720px}.pageHead{gap:16px;flex-wrap:wrap}.toolbar{flex-wrap:wrap}.toolbar>*{max-width:100%}.card{min-width:0}.twoCol>*{min-width:0}.quoteSheet{max-width:calc(100vw - 24px)}
+@media (min-width:1200px){.content{padding:38px 42px}.grid4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:1000px) and (min-width:761px){.content{padding:26px}.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{width:210px}.content{margin-left:210px;width:calc(100% - 210px)}}
+@media (max-width:760px){
+ html,body{overflow-x:hidden}.app{display:block;padding-top:58px;padding-bottom:68px}.mobileHeader{display:flex;position:fixed;z-index:40;top:0;left:0;right:0;height:58px;align-items:center;justify-content:space-between;padding:0 12px;background:#fff;border-bottom:1px solid #e4e9ed}.mobileBottomNav{display:grid;position:fixed;z-index:35;bottom:0;left:0;right:0;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1px solid #e1e6ea;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -4px 14px #00000008}.mobileBottomNav a{display:grid;justify-items:center;gap:3px;color:#788690;text-decoration:none;font-size:10px;min-width:0}.mobileBottomNav a.active{color:#172d3d;font-weight:700}.mobileBottomNav span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .sidebar{z-index:60;width:min(310px,86vw);padding:18px 14px;transform:translateX(-102%);transition:transform .2s ease;box-shadow:12px 0 30px #0002}.sidebar.open{transform:translateX(0)}.drawerBackdrop{display:block;position:fixed;z-index:50;inset:0;background:#0007;border:0}.drawerClose{display:block;margin-left:auto;border:0;background:transparent;color:#dce5ec}.brand{padding-bottom:16px}.brand div{display:block!important}.sidebar nav{gap:3px}.sidebar nav a,.sidebar nav a.active,.sidebar nav a:not(.active){font-size:14px!important;justify-content:flex-start}.sidebar nav a span{display:inline}.profile div{display:block}.profile{justify-content:space-between}
+ .content{margin-left:0;width:100%;padding:18px 14px 22px;max-width:none}.pageHead{align-items:flex-start;margin-bottom:16px}.pageHead h1{font-size:22px}.pageHead p{font-size:12px;line-height:1.5}.grid4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:14px;border-radius:10px}.metric strong{font-size:22px}.section{margin-top:16px}.formGrid{grid-template-columns:1fr}.modalBack{align-items:end;z-index:80;padding-top:env(safe-area-inset-top)}.modal{width:100%;max-height:calc(100dvh - env(safe-area-inset-top));overflow-y:auto;overscroll-behavior:contain;border-radius:16px 16px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom))}.actions{position:sticky;bottom:0;z-index:2;background:white;padding:10px 0 calc(4px + env(safe-area-inset-bottom));margin-bottom:calc(-14px - env(safe-area-inset-bottom));border-top:1px solid #edf0f2}.actions button{min-height:42px}.toolbar{width:100%;align-items:stretch}.toolbar input,.toolbar select,.toolbar button{min-height:42px}.filterCard{gap:12px}.twoCol{grid-template-columns:1fr}.preview{min-height:300px}.assistantCard{padding:12px}.chat{height:55dvh;padding:12px}.bubble{max-width:90%}.chatInput{position:sticky;bottom:0;background:#fff;padding-top:8px}.quoteSheet{width:100%;max-width:100vw;max-height:calc(100dvh - env(safe-area-inset-top));border-radius:16px 16px 0 0;padding:20px 14px calc(20px + env(safe-area-inset-bottom))}.quoteHeader{align-items:flex-start;gap:14px}.quoteHeader h1{letter-spacing:6px;font-size:24px}.quoteHeader>div:last-child{font-size:11px}.quoteTable{min-width:560px}.inlineInput{min-width:0;width:100%}.alertCard{align-items:flex-start;gap:10px}.alertCard>strong{white-space:nowrap}.fileRow{gap:10px}.fileRow>div:first-child{min-width:0}.fileRow b{overflow-wrap:anywhere}
+}
+@media (max-width:430px){.grid4{grid-template-columns:1fr}.metric{display:flex;align-items:center;justify-content:space-between}.metric strong{margin-top:0;font-size:20px}.pageHead .primary,.pageHead .secondary{width:100%}.loginCard{padding:24px 18px}.quoteHeader{display:block}.quoteHeader>div:last-child{text-align:left;margin-top:12px}}
+
+.textButton{background:none;border:0;color:#526675;padding:2px 4px;text-decoration:underline;text-underline-offset:3px;font-size:12px}.textButton:disabled{opacity:.55;cursor:not-allowed}.successNotice{background:#eaf7f0;color:#246847;padding:9px 10px;border-radius:7px;font-size:12px;border:1px solid #cfe9da}
+
+/* 2026-08 final quote/CRM mobile upgrade */
+.quoteEditor{width:min(980px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.quoteItemEditor{margin:16px 0;border:1px solid #d9e0e7;border-radius:14px;padding:12px;background:#fbfcfd}
+.quoteItemHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.quoteItemRow{display:grid;grid-template-columns:1.15fr 1.4fr 80px 60px 120px 38px;gap:8px;margin-bottom:8px}.quoteItemRow input{min-width:0}
+.smallBtn{padding:7px 10px!important}.quoteCalc{display:flex;justify-content:flex-end;gap:18px;align-items:center;background:#f5f8fb;border-radius:12px;padding:12px 14px;margin-top:12px}.quoteCalc .grand{font-size:18px;color:#0c4d7d}.stickyActions{position:sticky;bottom:0;background:#fff;padding:12px 0 calc(4px + env(safe-area-inset-bottom));z-index:3}
+.syQuote{background:#fff;color:#162433;width:210mm;min-height:297mm;padding:12mm;box-sizing:border-box;font-family:Arial,'Noto Sans KR',sans-serif}.syQuoteTop{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:start;border-bottom:0}.syBrand{display:flex;align-items:center;gap:8px}.syBrand img{width:46px;height:46px;object-fit:contain}.syBrand b{display:block;color:#0a4f86;font-size:18px}.syBrand small{display:block;color:#697b89;font-size:9px}.syQuoteTitle{text-align:center;font-size:30px;font-weight:800;letter-spacing:12px;color:#123f67;padding-top:18px}.syQuoteNo{text-align:right;font-size:10px;color:#687984;padding-top:38px}.syQuoteInfo{display:grid;grid-template-columns:1fr 1.25fr;border:1px solid #677782;margin-top:16px}.syReceiver{min-height:150px;padding:12px;border-right:1px solid #677782}.syReceiver .quoteDate{text-align:center;border-bottom:1px solid #9aa6ad;padding:4px}.syReceiver h2{text-align:center;font-size:20px;margin:32px 0}.syReceiver p{font-size:11px;margin:7px 0}.supplierGrid{display:grid;grid-template-columns:32px 1fr}.verticalLabel{display:flex;align-items:center;justify-content:center;text-align:center;border-right:1px solid #677782;color:#154e79}.supplierGrid dl{display:grid;grid-template-columns:86px 1fr 78px 1fr;margin:0}.supplierGrid dt,.supplierGrid dd{margin:0;padding:6px;border-bottom:1px solid #9aa6ad;font-size:10px}.supplierGrid dt{background:#edf3f7;font-weight:700;color:#184f77}.supplierGrid dd:nth-last-child(-n+2),.supplierGrid dt:nth-last-child(-n+2){border-bottom:0}.syTotalLine{display:flex;align-items:end;gap:22px;margin:28px 0 18px;border-bottom:3px solid #0a4f86;width:62%;padding-bottom:4px;color:#0a4f86}.syTotalLine span{font-weight:700}.syTotalLine strong{font-size:20px}.syTotalLine b{font-size:10px;color:#333}.syItems{width:100%;border-collapse:collapse;font-size:10px}.syItems th{background:#eaf2f8;color:#0b4f84;border:1px solid #a9b5bd;padding:7px}.syItems td{border:1px solid #b7c0c7;padding:7px;text-align:center;height:24px}.syItems td:first-child{text-align:left}.syItems td small{display:block;color:#687984;margin-top:3px}.syNotice{margin-top:26px;border:1px solid #a9b5bd}.syNotice h3{background:#0b4f84;color:#fff;margin:0;padding:7px 10px;font-size:11px}.syNotice p{font-size:9.5px;margin:7px 12px}
+@media(max-width:760px){.quoteItemRow{grid-template-columns:1fr 1fr 70px 54px}.quoteItemRow input:nth-of-type(2){grid-column:1/-1}.quoteItemRow input:nth-of-type(5){grid-column:1/3}.quoteItemRow button{grid-column:4}.quoteCalc{flex-direction:column;align-items:flex-end;gap:5px}.quoteSheet{overflow:auto}.syQuote{transform-origin:top left;min-width:210mm}.quoteTools{position:sticky;left:0;top:0;z-index:10;width:100vw;overflow:auto;background:white;padding:8px}}
+@media print{.syQuote{width:210mm;min-height:297mm;padding:10mm}.quoteSheet{padding:0!important}.syQuoteTitle{font-size:28px}.noPrint{display:none!important}}
+.clientDetail{width:min(760px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding-bottom:calc(28px + env(safe-area-inset-bottom))}.subTitle{display:flex;gap:7px;align-items:center;margin:18px 0 10px}.contactList{display:grid;gap:8px}.contactCard{display:flex;justify-content:space-between;align-items:center;border:1px solid #dde4ea;border-radius:12px;padding:11px}.contactCard span{font-size:12px;color:#687984}.contactCard small{display:block;color:#687984;margin-top:4px}.contactAdd{margin-top:18px;border-top:1px solid #e2e7eb;padding-top:14px}.checkLabel{display:flex!important;flex-direction:row!important;align-items:center;gap:8px}.checkLabel input{width:auto!important}
+.dashboardSecond{margin-top:12px}.dashboardSecond .card{grid-column:span 2}@media(max-width:760px){.dashboardSecond .card{grid-column:span 1}}
+
+/* v5.2 employee quick-add */
+.presetMenu{position:absolute;right:0;top:calc(100% + 8px);z-index:40;min-width:280px;background:#fff;border:1px solid #d7dee6;border-radius:14px;box-shadow:0 14px 36px rgba(17,32,49,.16);padding:7px;display:grid;gap:4px}
+.presetMenu button{background:#fff;border:0;border-radius:10px;padding:10px 12px;text-align:left;color:#172635;display:flex;flex-direction:column;gap:2px;width:100%}
+.presetMenu button:hover{background:#f3f6f8}
+.presetMenu span{font-size:12px;color:#71808f;font-weight:400}
+@media(max-width:720px){.presetMenu{position:fixed;left:16px;right:16px;top:auto;bottom:calc(88px + env(safe-area-inset-bottom));min-width:0;max-height:52vh;overflow:auto}.toolbar{flex-wrap:wrap}}
+
+.attachmentBox{border:1px solid var(--line,#d9e0e7);border-radius:14px;padding:12px 14px;display:grid;gap:8px}.attachmentBox>b{display:flex;align-items:center;gap:6px}.checkRow{display:flex!important;align-items:center;gap:9px;font-weight:400!important}.checkRow input{width:auto!important}.historyRow{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid var(--line,#e5e7eb)}.historyRow:first-of-type{border-top:0}.historyRow p{margin:3px 0 0;color:#6b7280;font-size:13px}.historyRow>span{white-space:nowrap;color:#7b8490;font-size:12px}.hint{font-size:12px;color:#6b7280;margin:5px 0 0}@media(max-width:720px){.historyRow{display:block}.historyRow>span{display:block;margin-top:5px}}
+
+/* v5.4 permissions + alerts */
+.compactBtn{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;font-size:12px}.permissionGrid{display:grid;gap:8px;margin-top:14px}.permissionRow{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid #e2e7eb;border-radius:10px;padding:12px 13px;background:#fafcfd}.permissionRow>div{display:grid;gap:3px}.permissionRow b{font-size:13px;color:#1d2b35}.permissionRow span{font-size:11px;color:#74828d}.permissionRow input{width:20px;height:20px;accent-color:#172d3d}.alertSettings{margin-bottom:14px}.alertSettings h2{margin:0 0 14px;font-size:16px}.settingGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.switchRow{display:flex;align-items:center;justify-content:space-between;border:1px solid #e2e7eb;border-radius:9px;padding:10px 12px;background:#fafcfd}.switchRow input{width:20px;height:20px;accent-color:#172d3d}.alertActions{margin-top:14px}.alertActions button{display:inline-flex;align-items:center;gap:6px}.navIconWrap{position:relative;display:inline-flex}.navBadge{position:absolute;right:-9px;top:-8px;background:#c74646;color:#fff;border-radius:999px;min-width:17px;height:17px;padding:0 4px;display:grid;place-items:center;font-size:9px;font-style:normal;border:2px solid #13202b}.mobileAlertButton{display:none;position:relative;color:#172d3d;text-decoration:none;padding:8px}.mobileAlertButton>span{position:absolute;right:1px;top:1px;background:#c74646;color:#fff;border-radius:999px;min-width:16px;height:16px;padding:0 3px;font-size:9px;display:grid;place-items:center}
+@media(max-width:760px){.settingGrid{grid-template-columns:1fr}.mobileAlertButton{display:inline-flex}.mobileHeader{gap:4px}.mobileBrand{margin-right:auto}.permissionRow{padding:11px}.alertActions{display:grid;grid-template-columns:1fr 1fr}.alertActions button{justify-content:center}}
+
+/* v5.5 approvals, audit, backup, portal, briefing */
+.mutedLine{font-size:11px;color:#75838d;margin-top:4px;white-space:normal}.briefingCard h2{margin:0 0 14px}.briefingGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.briefingGrid div{background:#f7fafc;border:1px solid #e3e8ec;border-radius:10px;padding:12px}.briefingGrid span,.briefingGrid b{display:block}.briefingGrid span{font-size:11px;color:#71808b}.briefingGrid b{margin-top:5px;font-size:16px}.portalPage{min-height:100vh;background:#f3f6f8;padding:30px 14px;display:grid;place-items:start center}.portalCard{width:min(760px,100%);background:#fff;border:1px solid #dde4e8;border-radius:16px;padding:24px;box-shadow:0 12px 38px #13202b12}.portalBrand{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #0b4f84;padding-bottom:12px}.portalBrand b{color:#0b4f84}.portalBrand span{font-size:12px;color:#75838d}.portalMetrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.portalMetrics div{background:#f4f8fb;border-radius:10px;padding:12px}.portalMetrics span,.portalMetrics b{display:block}.portalMetrics span{font-size:11px;color:#75838d}.portalMetrics b{margin-top:5px}.portalList{display:grid;gap:8px;margin:10px 0 22px}.portalList>div,.portalList>a{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid #e3e8ec;border-radius:9px;color:#1b2b36;text-decoration:none}.portalList small{margin-left:auto;color:#7c8992}.portalContact{border-top:1px solid #e3e8ec;padding-top:14px;color:#667782;font-size:12px}@media(max-width:900px){.briefingGrid{grid-template-columns:repeat(3,1fr)}}@media(max-width:520px){.briefingGrid{grid-template-columns:1fr 1fr}.portalMetrics{grid-template-columns:1fr}}
+
+/* v5.6 mobile hardening */
+@media(max-width:520px){
+  .grid4{grid-template-columns:1fr}
+  .pageHead{display:grid;grid-template-columns:1fr;align-items:start}
+  .pageHead>.toolbar,.pageHead>button{width:100%}
+  .pageHead>.toolbar button,.pageHead>button{width:100%;justify-content:center}
+  .quoteItemRow{grid-template-columns:1fr 1fr}
+  .quoteItemRow input:nth-of-type(2),.quoteItemRow input:nth-of-type(5){grid-column:1/-1}
+  .quoteItemRow button{grid-column:2}
+  .alertActions{grid-template-columns:1fr}
+}
+@media(max-width:380px){
+  .content{padding-left:10px;padding-right:10px}
+  .mobileBrand b{font-size:12px}
+  .modal,.quoteSheet{padding-left:10px;padding-right:10px}
+}
+/* v5.7.6 — 기존 신양파트너스 견적서 원본 재현 정밀 보정 */
+.syQuote{background:#fff;color:#252b30;width:210mm;min-height:297mm;padding:13mm 11.5mm 11mm;box-sizing:border-box;font-family:Arial,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;font-weight:400}
+.syQuoteTop{position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:start;min-height:36mm}
+.syBrand{display:block;padding-top:1.5mm}.syBrand img{width:38mm;height:auto;object-fit:contain;display:block}
+.syQuoteTitle{text-align:center;font-size:25px;font-weight:800;letter-spacing:10px;color:#0b4f7f;padding-top:15.5mm;white-space:nowrap}
+.syQuoteNo{position:absolute;right:0;bottom:1.2mm;font-size:8px;color:#737d84;font-weight:400}
+.syQuoteInfo{display:grid;grid-template-columns:46% 54%;border:.7px solid #70787d;margin-top:0}
+.syReceiver{min-height:45mm;padding:0;border-right:.7px solid #70787d;display:grid;grid-template-rows:10.5mm 17.5mm 8.5mm 8.5mm}
+.syReceiver .quoteDate{display:flex;align-items:center;justify-content:center;border-bottom:.7px solid #8b9499;padding:0;font-size:9.4px;font-weight:400}
+.syReceiver h2{display:flex;align-items:center;justify-content:center;text-align:center;font-size:15.8px;margin:0;border-bottom:.7px solid #8b9499;font-weight:700;letter-spacing:-.2px}
+.syReceiver p{display:flex;align-items:center;font-size:8.4px;margin:0;padding:0 5.2mm;border-bottom:.7px solid #8b9499;line-height:1.15}.syReceiver p:last-child{border-bottom:0}
+.supplierWrap{display:grid;grid-template-columns:9mm 1fr;min-height:45mm}.supplierWrap .verticalLabel{display:flex;align-items:center;justify-content:center;text-align:center;border-right:.7px solid #70787d;color:#0b4f7d;font-weight:700;line-height:1.45;font-size:10.4px}
+.supplierTable{width:100%;border-collapse:collapse;table-layout:fixed;font-size:7.65px}.supplierTable th,.supplierTable td{border-bottom:.7px solid #8b9499;border-right:.7px solid #8b9499;padding:1.25mm 1.35mm;vertical-align:middle;line-height:1.18;font-weight:400;word-break:keep-all;overflow-wrap:anywhere}.supplierTable tr:last-child th,.supplierTable tr:last-child td{border-bottom:0}.supplierTable th:last-child,.supplierTable td:last-child{border-right:0}.supplierTable th{width:16.5%;background:#eaf1f7;color:#0a4d7e;text-align:center;font-weight:700}.supplierTable td{width:33.5%;text-align:center;position:relative}.supplierTable .bizNo{letter-spacing:.05px}.supplierTable .ceoCell{padding-right:8.5mm}.companyStamp{position:absolute;right:1.4mm;top:50%;transform:translateY(-50%);width:10.5mm;height:10.5mm;object-fit:contain;opacity:.92}
+.syTotalLine{display:grid;grid-template-columns:25mm 58mm 23mm;align-items:end;margin:12mm 0 10mm;border-bottom:1.25px solid #0a4f86;width:110mm;padding-bottom:1.4mm;color:#0a4f86;gap:2mm}.syTotalLine span{font-weight:700;font-size:10px}.syTotalLine strong{font-size:15.5px;letter-spacing:-.35px;font-weight:800}.syTotalLine b{font-size:8px;color:#222;text-align:center;font-weight:700}
+.syItems{width:100%;border-collapse:collapse;font-size:7.6px;table-layout:fixed}.syItems th{background:#e7eff6;color:#0b4f84;border:.7px solid #9fa9af;padding:1.55mm .8mm;font-size:8.1px;font-weight:700}.syItems th:nth-child(1){width:42%}.syItems th:nth-child(2){width:7%}.syItems th:nth-child(3){width:15%}.syItems th:nth-child(4){width:14%}.syItems th:nth-child(5){width:10%}.syItems th:nth-child(6){width:12%}.syItems td{border:.7px solid #b5bdc2;padding:1.15mm .8mm;text-align:center;height:6.6mm;line-height:1.18;font-weight:400;vertical-align:middle}.syItems td:first-child{text-align:left;white-space:normal;word-break:keep-all;overflow-wrap:anywhere}.syItems td b{font-weight:400}.syItems td small{display:none}.syItems tbody tr:nth-child(n+3) td{height:6.6mm}
+.syNotice{margin-top:11mm;border:.7px solid #a4adb2;min-height:23mm}.syNotice h3{background:#075282;color:#fff;margin:0;padding:1.6mm 4.5mm;font-size:8.8px;font-weight:700}.syNotice p{font-size:7.9px;margin:2.2mm 6.5mm;line-height:1.28;font-weight:400}.syNotice p::first-letter{color:#0a4f86}
+@media(max-width:760px){.quoteSheet{overflow:auto}.syQuote{transform-origin:top left;min-width:210mm}.quoteTools{position:sticky;left:0;top:0;z-index:10;width:100vw;overflow:auto;background:white;padding:8px}}
+@media print{.syQuote{width:210mm;min-height:297mm;padding:13mm 11.5mm 11mm}.syQuoteTop{min-height:36mm}.noPrint{display:none!important}}
+
+/* v5.7.5 service contract */
+.contractEditor{width:min(920px,calc(100vw - 24px));max-height:calc(100dvh - 24px)}
+.contractSheet{width:min(900px,96vw)}
+.syContract{width:210mm;min-height:297mm;background:#fff;color:#202830;padding:13mm 14mm;font-family:Arial,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;font-size:10.5pt;line-height:1.55}
+.ctHeader{position:relative;text-align:center;border-top:5px solid #0b4f84;padding-top:10mm}.ctLogo{position:absolute;left:0;top:8mm;width:52mm}.ctLogo img{width:100%;height:auto}.ctHeader h1{margin:10mm 0 7mm;color:#103f67;font-size:21pt;letter-spacing:5px}.ctNo{text-align:left;color:#0b4f84;font-weight:700;margin:0 0 3mm}.ctIntro{margin:0 0 5mm}.ctParty{width:100%;border-collapse:collapse;margin-bottom:7mm;font-size:9.5pt}.ctParty th,.ctParty td{border:1px solid #8d9aa3;padding:2.2mm 2.5mm;white-space:normal}.ctParty thead th{background:#0b4f84;color:#fff;text-align:center;font-size:11pt}.ctParty tbody th{background:#e9f0f7;color:#174c73;width:18%;font-weight:700}.ctParty tbody td{width:32%}.ctStampCell{position:relative;min-height:14mm}.ctStampCell img{position:absolute;width:19mm;right:3mm;top:-4mm;opacity:.88}.ctArticle{break-inside:avoid;margin:0 0 4.5mm}.ctArticle h2{font-size:11pt;margin:0 0 1.5mm;color:#0c4f7e;border-left:3px solid #0b4f84;padding-left:2mm}.ctArticle p{margin:0;white-space:normal}.ctPre{white-space:pre-wrap!important}.ctClosing{margin-top:7mm;text-align:center}.ctDate{text-align:center;font-size:11pt;font-weight:700;margin:8mm 0}.ctSign{display:grid;grid-template-columns:1fr 1fr;gap:12mm;border-top:1px solid #c9d1d8;padding-top:5mm;font-size:10.5pt}.ctSign>div{min-height:20mm}.ctSignRight{position:relative}.ctSignRight img{position:absolute;width:21mm;right:7mm;top:-4mm;opacity:.9}
+@media(max-width:760px){.contractSheet{width:100%;max-width:100vw}.syContract{transform-origin:top left;min-width:210mm}.contractEditor{width:100%}}
+@media print{.syContract{width:210mm;min-height:297mm;padding:13mm 14mm}.contractSheet{padding:0!important}.ctArticle{break-inside:avoid}}
+
+
+/* v5.7.8 — 견적서 화면 반응형 미리보기 / PDF A4 분리 */
+.syQuoteViewport{width:100%;overflow:hidden;position:relative;display:block}
+.syQuoteViewport>.syQuote{transform-origin:top left;will-change:transform}
+.supplierTable{table-layout:fixed;width:100%}
+.supplierTable th,.supplierTable td{min-width:0;white-space:normal;word-break:keep-all;overflow-wrap:anywhere;hyphens:auto}
+.supplierTable td:nth-child(4){font-size:7.15px;line-height:1.14}
+.syItems td,.syItems th{min-width:0;white-space:normal;overflow-wrap:anywhere;word-break:keep-all}
+.quoteSheet{overflow-x:hidden}
+@media(max-width:760px){
+ .quoteSheet{overflow-y:auto;overflow-x:hidden}
+ .syQuoteViewport{width:100%;margin:0 auto}
+ .syQuote{min-width:0!important;max-width:none}
+ .quoteTools{position:sticky;left:0;top:0;z-index:10;width:100%;overflow-x:auto;background:white;padding:8px 0}
+}
+@media print{
+ .syQuoteViewport{height:auto!important;overflow:visible!important}
+ .syQuoteViewport>.syQuote{transform:none!important}
+}
+
+
+/* v5.8.0 — 견적서 공급자 표 정리: 직인 겹침 방지 / 종목 2줄 / 담당자 연락처 수정 */
+.supplierTable .ceoCell{padding-right:12mm;white-space:nowrap}
+.companyStamp{right:2.2mm;width:9mm;height:9mm;opacity:.88;pointer-events:none}
+.supplierTable .categoryCell{white-space:pre-line!important;word-break:keep-all!important;overflow-wrap:normal!important;font-size:6.65px!important;line-height:1.28!important;letter-spacing:-.08px;padding-left:1mm!important;padding-right:1mm!important}
+@media(max-width:760px){
+  .supplierTable .ceoCell{padding-right:12mm}
+  .companyStamp{right:2.2mm;width:9mm;height:9mm}
+  .supplierTable .categoryCell{font-size:6.65px!important;line-height:1.28!important}
+}
+@media print{
+  .supplierTable .ceoCell{padding-right:12mm}
+  .companyStamp{right:2.2mm;width:9mm;height:9mm}
+  .supplierTable .categoryCell{font-size:6.65px!important;line-height:1.28!important}
+}
+
+
+/* v5.8.2 — 계약서/견적서 직인 수동처리 + 회사정보 표 정밀 보정 */
+.ctParty{
+  table-layout:fixed;
+  border:1px solid #8d9aa3;
+}
+.ctParty th,.ctParty td{
+  border:1px solid #8d9aa3;
+  padding:2.15mm 2.35mm;
+  vertical-align:middle;
+  line-height:1.28;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+.ctParty thead th{
+  border-color:#0b4f84;
+}
+.ctParty tbody th{
+  width:17%;
+  white-space:nowrap;
+}
+.ctParty tbody td{
+  width:33%;
+}
+.ctParty tbody tr>th:nth-child(3),
+.ctParty tbody tr>td:nth-child(4){
+  border-left:1px solid #8d9aa3;
+}
+.ctParty .ctRepresentativeCell{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6mm;
+  white-space:nowrap;
+}
+.ctSealPlaceholder,.quoteSealPlaceholder{
+  color:#5d6870;
+  font-size:.92em;
+  white-space:nowrap;
+}
+.ctAddressCell span{
+  display:block;
+}
+.ctAddressCell span+span{
+  margin-top:.7mm;
+}
+.ctContactRow th,.ctContactRow td{
+  border-bottom:1px solid #8d9aa3;
+}
+.ctContactCell{
+  text-align:left;
+}
+.ctContactCell span{
+  display:block;
+  white-space:nowrap;
+}
+.ctContactCell .ctContactName{
+  font-weight:700;
+  color:#26343e;
+  margin-bottom:.7mm;
+}
+.ctContactCell span:not(.ctContactName)+span{
+  margin-top:.35mm;
+}
+.ctStampCell img,.ctSignRight img,.companyStamp{
+  display:none!important;
+}
+.ctSignRight{
+  position:relative;
+}
+.supplierTable .ceoCell{
+  padding-right:1.35mm!important;
+  display:table-cell;
+  white-space:nowrap;
+}
+.supplierTable .ceoCell>span{
+  display:inline-block;
+}
+.supplierTable .ceoCell .quoteSealPlaceholder{
+  margin-left:2mm;
+}
+
+
+/* v5.8.4 — 계약서 반응형 미리보기 + 기존 계약 직접 수정 */
+.syContractViewport{width:100%;overflow:hidden;position:relative;display:block;margin:0 auto}
+.syContractViewport>.syContract{transform-origin:top left;will-change:transform}
+.contractSheet{overflow-x:hidden}
+@media(max-width:760px){
+ .contractSheet{width:100%;max-width:100vw;padding:10px!important;overflow-y:auto;overflow-x:hidden}
+ .syContractViewport{width:100%;margin:0 auto}
+ .syContract{min-width:0!important;max-width:none}
+ .contractSheet .quoteTools{position:sticky;left:0;top:0;z-index:10;width:100%;overflow-x:auto;background:#fff;padding:8px 0;flex-wrap:nowrap}
+ .contractSheet .quoteTools button,.contractSheet .quoteTools select{flex:0 0 auto}
+}
+@media print{
+ .syContractViewport{height:auto!important;overflow:visible!important}
+ .syContractViewport>.syContract{transform:none!important}
+}
+\n\n/* v5.8.5 — 직원관리 모바일 카드형 / 셀렉트 화살표 겹침 제거 */
+.staffMobileList{display:none}
+.staffRoleSelect{min-width:112px;padding-right:34px;appearance:auto;background-color:#fff}
+.staffDesktopTable select.staffRoleSelect{width:124px}
+@media(max-width:760px){
+ .staffDesktopTable{display:none}
+ .staffMobileList{display:grid;gap:12px}
+ .staffMobileCard{background:#fff;border:1px solid #dfe5e9;border-radius:14px;overflow:hidden;box-shadow:0 1px 2px #00000008}
+ .staffMobileHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:14px 14px 12px;border-bottom:1px solid #e5eaee;background:#fbfcfd}
+ .staffMobileHead>div{min-width:0}
+ .staffMobileHead b{font-size:16px;color:#182630}
+ .staffMobileHead small{display:block;margin-top:4px;color:#77858f;font-size:11px;white-space:normal;overflow-wrap:anywhere}
+ .meTag{display:inline-flex;margin-left:6px;padding:2px 6px;border-radius:999px;background:#e9f2f8;color:#0b4f84;font-size:9px;font-weight:700;vertical-align:2px}
+ .staffMobileGrid{display:grid;grid-template-columns:1fr 1fr}
+ .staffMobileGrid label{min-width:0;padding:12px 14px;border-right:1px solid #e5eaee;border-bottom:1px solid #e5eaee;gap:7px}
+ .staffMobileGrid label:nth-child(2n){border-right:0}
+ .staffMobileGrid label:nth-last-child(-n+2){border-bottom:0}
+ .staffMobileGrid label>span:first-child{font-size:10px;font-weight:700;color:#70808b}
+ .staffMobileGrid input,.staffMobileGrid select{width:100%;min-width:0;height:42px;padding:9px 34px 9px 10px;border:1px solid #d5dde2;border-radius:9px;background:#fff;font-size:13px}
+ .staffMobileGrid input{padding-right:10px}
+ .staffMobileGrid .staffRoleSelect{min-width:0;width:100%;background-position:right 10px center}
+ .staffPermissionBtn{width:100%;min-height:42px;justify-content:center;display:inline-flex;align-items:center;gap:6px}
+ .staffMobileEmpty{background:#fff;border:1px solid #dfe5e9;border-radius:14px}
+}
+@media(max-width:390px){
+ .staffMobileGrid{grid-template-columns:1fr}
+ .staffMobileGrid label{border-right:0!important;border-bottom:1px solid #e5eaee!important}
+ .staffMobileGrid label:last-child{border-bottom:0!important}
+}
+
+
+/* v5.8.6 — 계약서 "실제" 모바일 반응형: 화면은 읽기 좋게 재배치, PDF는 A4 유지 */
+.ctPartyMobile{display:none}
+@media(max-width:760px){
+  .syContractViewport{height:auto!important;overflow:visible!important}
+  .syContractViewport>.syContract{
+    transform:none!important;
+    width:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    padding:18px 16px 28px!important;
+    font-size:14px!important;
+    line-height:1.6!important;
+  }
+  .ctHeader{
+    padding-top:18px!important;
+    border-top:4px solid #0b4f84!important;
+    text-align:left!important;
+  }
+  .ctLogo{
+    position:static!important;
+    width:150px!important;
+    margin-bottom:18px!important;
+  }
+  .ctHeader h1{
+    margin:0 0 18px!important;
+    font-size:23px!important;
+    line-height:1.35!important;
+    letter-spacing:3px!important;
+    text-align:center!important;
+    word-break:keep-all!important;
+  }
+  .ctNo{
+    font-size:13px!important;
+    margin-bottom:12px!important;
+  }
+  .ctIntro{
+    font-size:14px!important;
+    line-height:1.65!important;
+    margin-bottom:18px!important;
+  }
+  .ctParty{display:none!important}
+  .ctPartyMobile{
+    display:grid!important;
+    gap:14px;
+    margin-bottom:22px;
+  }
+  .ctPartyMobile section{
+    border:1px solid #aab5bd;
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+  }
+  .ctPartyMobile h3{
+    margin:0;
+    padding:11px 14px;
+    background:#0b4f84;
+    color:#fff;
+    font-size:16px;
+  }
+  .ctPartyMobile h3 small{
+    font-size:11px;
+    font-weight:500;
+    opacity:.85;
+    margin-left:5px;
+  }
+  .ctPartyMobile dl{margin:0}
+  .ctPartyMobile dl>div{
+    display:grid;
+    grid-template-columns:112px minmax(0,1fr);
+    border-top:1px solid #d8e0e5;
+  }
+  .ctPartyMobile dl>div:first-child{border-top:0}
+  .ctPartyMobile dt{
+    background:#eef4f8;
+    color:#0b4f7e;
+    font-weight:700;
+    padding:10px 12px;
+    font-size:12px;
+  }
+  .ctPartyMobile dd{
+    margin:0;
+    padding:10px 12px;
+    min-width:0;
+    font-size:13px;
+    line-height:1.5;
+    overflow-wrap:anywhere;
+  }
+  .ctPartyMobile dd b,.ctPartyMobile dd span{display:block}
+  .ctPartyMobile dd span+span{margin-top:2px}
+  .ctArticle{
+    margin:0 0 20px!important;
+    break-inside:auto!important;
+  }
+  .ctArticle h2{
+    font-size:16px!important;
+    line-height:1.35!important;
+    margin:0 0 8px!important;
+    padding-left:9px!important;
+    border-left:4px solid #0b4f84!important;
+  }
+  .ctArticle p,.ctPre{
+    font-size:14px!important;
+    line-height:1.75!important;
+    white-space:pre-wrap!important;
+  }
+  .ctClosing,.ctDate,.ctSign{
+    font-size:14px!important;
+    line-height:1.65!important;
+  }
+  .ctSign{
+    grid-template-columns:1fr!important;
+    gap:14px!important;
+  }
+  .ctClosing{margin-top:24px!important}
+  .ctDate{margin:22px 0!important}
+}
+
+/* 모바일에서도 PDF 생성 순간에는 원래 A4 계약서로 강제 */
+@media(max-width:760px){
+  .syContract.contractPdfCapture{
+    width:210mm!important;
+    min-width:210mm!important;
+    min-height:297mm!important;
+    padding:13mm 14mm!important;
+    font-size:10.5pt!important;
+    line-height:1.55!important;
+  }
+  .syContract.contractPdfCapture .ctHeader{
+    position:relative!important;
+    text-align:center!important;
+    border-top:5px solid #0b4f84!important;
+    padding-top:10mm!important;
+  }
+  .syContract.contractPdfCapture .ctLogo{
+    position:absolute!important;
+    left:0!important;
+    top:8mm!important;
+    width:52mm!important;
+    margin:0!important;
+  }
+  .syContract.contractPdfCapture .ctHeader h1{
+    margin:10mm 0 7mm!important;
+    color:#103f67!important;
+    font-size:21pt!important;
+    letter-spacing:5px!important;
+    text-align:center!important;
+  }
+  .syContract.contractPdfCapture .ctNo{
+    text-align:left!important;
+    font-size:inherit!important;
+    margin:0 0 3mm!important;
+  }
+  .syContract.contractPdfCapture .ctIntro{
+    font-size:inherit!important;
+    line-height:inherit!important;
+    margin:0 0 5mm!important;
+  }
+  .syContract.contractPdfCapture .ctParty{display:table!important}
+  .syContract.contractPdfCapture .ctPartyMobile{display:none!important}
+  .syContract.contractPdfCapture .ctArticle{margin:0 0 4.5mm!important;break-inside:avoid!important}
+  .syContract.contractPdfCapture .ctArticle h2{
+    font-size:11pt!important;
+    margin:0 0 1.5mm!important;
+    border-left:3px solid #0b4f84!important;
+    padding-left:2mm!important;
+  }
+  .syContract.contractPdfCapture .ctArticle p,
+  .syContract.contractPdfCapture .ctPre{
+    font-size:inherit!important;
+    line-height:inherit!important;
+  }
+  .syContract.contractPdfCapture .ctSign{
+    grid-template-columns:1fr 1fr!important;
+    gap:12mm!important;
+  }
+}
+@media(max-width:390px){
+  .ctPartyMobile dl>div{grid-template-columns:96px minmax(0,1fr)}
+  .ctPartyMobile dt{padding:9px 10px}
+  .ctPartyMobile dd{padding:9px 10px}
+  .ctHeader h1{font-size:20px!important;letter-spacing:2px!important}
+}
+
+
+/* v5.8.7 — 실제 신양파트너스 기존 계약서 구조 반영 */
+.syContractActual{font-family:Arial,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;color:#20252a}
+.actualCtHeader{position:relative;text-align:center;border-top:4px solid #0b4f84;padding-top:9mm;margin-bottom:7mm}
+.actualCtLogo{position:absolute;left:0;top:5mm;width:45mm}
+.actualCtLogo img{width:100%;height:auto}
+.actualCtHeader h1{font-size:21pt;margin:7mm 0 5mm;letter-spacing:1px;color:#142b3a}
+.actualCtHeader .ctNo{text-align:right;font-size:8.5pt;color:#6a7882}
+.actualSummary,.actualParty{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9.4pt}
+.actualSummary th,.actualSummary td,.actualParty th,.actualParty td{border:1px solid #7f8a91;padding:2.1mm 2.5mm;vertical-align:top;line-height:1.45}
+.actualSummary th{width:27%;text-align:left;background:#f3f7fa;color:#173f5d;font-weight:700;letter-spacing:.8px}
+.actualScopeSummary{margin-top:1mm;font-size:8.6pt;line-height:1.45}
+.ctIndent{display:inline-block;padding-left:6mm}
+.ctIndent2{display:inline-block;padding-left:11mm}
+.actualClosing{text-align:center;margin:11mm 0 8mm;font-size:9.6pt}
+.actualDate{text-align:center;font-size:10.5pt;margin-bottom:9mm}
+.actualParty th{background:#0b4f84;color:white;text-align:left;font-size:10pt}
+.actualParty td{width:50%;font-size:9.1pt}
+.actualParty b{color:#173f5d}
+.partyIndent{padding-left:11.7mm}
+.actualPageBreak{break-after:page;height:1px}
+.actualConditionsTitle{text-align:center;font-size:19pt;font-weight:800;letter-spacing:7px;margin:1mm 0 9mm;color:#163e5c}
+.actualClause{margin:0 0 5.2mm;break-inside:avoid}
+.actualClause h2{font-size:11.5pt;margin:0 0 1.4mm;color:#0b4f84;border-left:3px solid #0b4f84;padding-left:2mm}
+.actualClause p{font-size:9.6pt;line-height:1.6;margin:0;white-space:normal}
+.syContractActual .ctPre{white-space:pre-wrap!important}
+
+@media(max-width:760px){
+  .syContractActual .actualCtLogo{position:static;width:145px;margin:0 0 12px}
+  .syContractActual .actualCtHeader{padding-top:14px;text-align:left}
+  .syContractActual .actualCtHeader h1{font-size:22px!important;text-align:center;margin:8px 0 10px;letter-spacing:0!important}
+  .syContractActual .actualCtHeader .ctNo{text-align:left;font-size:12px}
+  .syContractActual .actualSummary,
+  .syContractActual .actualParty{display:block;font-size:13px}
+  .syContractActual .actualSummary tbody,
+  .syContractActual .actualParty tbody{display:grid;gap:10px}
+  .syContractActual .actualSummary tr{display:grid;grid-template-columns:1fr;border:1px solid #b6c1c9;border-radius:10px;overflow:hidden}
+  .syContractActual .actualSummary th,
+  .syContractActual .actualSummary td{display:block;width:100%;border:0;padding:10px 12px}
+  .syContractActual .actualSummary th{background:#edf4f8;font-size:13px}
+  .syContractActual .actualSummary td{border-top:1px solid #dbe3e8;line-height:1.6}
+  .syContractActual .actualParty thead{display:none}
+  .syContractActual .actualParty tbody{grid-template-columns:1fr}
+  .syContractActual .actualParty tr{display:grid;grid-template-columns:1fr 1fr;border:1px solid #b6c1c9}
+  .syContractActual .actualParty td{display:block;width:auto;border:0;border-right:1px solid #dbe3e8;padding:10px 11px;line-height:1.55}
+  .syContractActual .actualParty td:last-child{border-right:0}
+  .syContractActual .actualClosing{font-size:14px;line-height:1.65;margin:24px 0 18px}
+  .syContractActual .actualDate{font-size:14px;margin-bottom:20px}
+  .syContractActual .actualPageBreak{display:none}
+  .syContractActual .actualConditionsTitle{font-size:21px;letter-spacing:3px;margin:28px 0 20px}
+  .syContractActual .actualClause{margin-bottom:22px!important}
+  .syContractActual .actualClause h2{font-size:16px!important;margin-bottom:8px!important}
+  .syContractActual .actualClause p{font-size:14px!important;line-height:1.75!important}
+}
+@media(max-width:420px){
+  .syContractActual .actualParty tr{grid-template-columns:1fr}
+  .syContractActual .actualParty td{border-right:0;border-bottom:1px solid #dbe3e8}
+  .syContractActual .actualParty td:last-child{border-bottom:0}
+}
+@media(max-width:760px){
+  .syContract.contractPdfCapture .actualCtLogo{position:absolute!important;left:0!important;top:5mm!important;width:45mm!important;margin:0!important}
+  .syContract.contractPdfCapture .actualCtHeader{position:relative!important;text-align:center!important;border-top:4px solid #0b4f84!important;padding-top:9mm!important;margin-bottom:7mm!important}
+  .syContract.contractPdfCapture .actualCtHeader h1{font-size:21pt!important;margin:7mm 0 5mm!important;letter-spacing:1px!important;text-align:center!important}
+  .syContract.contractPdfCapture .actualCtHeader .ctNo{text-align:right!important;font-size:8.5pt!important}
+  .syContract.contractPdfCapture .actualSummary,.syContract.contractPdfCapture .actualParty{display:table!important;font-size:9.4pt!important}
+  .syContract.contractPdfCapture .actualSummary tbody,.syContract.contractPdfCapture .actualParty tbody{display:table-row-group!important}
+  .syContract.contractPdfCapture .actualSummary tr,.syContract.contractPdfCapture .actualParty tr{display:table-row!important}
+  .syContract.contractPdfCapture .actualSummary th,.syContract.contractPdfCapture .actualSummary td,.syContract.contractPdfCapture .actualParty th,.syContract.contractPdfCapture .actualParty td{display:table-cell!important;border:1px solid #7f8a91!important;padding:2.1mm 2.5mm!important}
+  .syContract.contractPdfCapture .actualSummary th{width:27%!important}
+  .syContract.contractPdfCapture .actualParty thead{display:table-header-group!important}
+  .syContract.contractPdfCapture .actualParty td{width:50%!important}
+  .syContract.contractPdfCapture .actualPageBreak{display:block!important;break-after:page!important}
+  .syContract.contractPdfCapture .actualConditionsTitle{font-size:19pt!important;letter-spacing:7px!important;margin:1mm 0 9mm!important}
+  .syContract.contractPdfCapture .actualClause{margin:0 0 5.2mm!important;break-inside:avoid!important}
+  .syContract.contractPdfCapture .actualClause h2{font-size:11.5pt!important;margin:0 0 1.4mm!important}
+  .syContract.contractPdfCapture .actualClause p{font-size:9.6pt!important;line-height:1.6!important}
+}
+
+
+/* v5.9.0 — 신양 자체 계약서 / A4 3페이지 / 군더기 제거 */
+.ownContract{width:210mm!important;min-height:0!important;padding:0!important;background:transparent!important;color:#24313b;font-family:Arial,'Noto Sans KR','Apple SD Gothic Neo',sans-serif}
+.ownContractPage{box-sizing:border-box;width:210mm;height:297mm;padding:13mm 15mm 12mm;background:#fff;overflow:hidden;position:relative;margin:0 0 8mm}
+.ownTopLine{height:1.2mm;background:#0b4f84;margin-bottom:6mm}
+.ownHeader{display:flex;align-items:flex-start;gap:8mm;margin-bottom:7mm}
+.ownLogo{width:47mm;height:auto;margin-top:1mm}
+.ownTitleWrap{flex:1;text-align:right}
+.ownTitleWrap h1{margin:0;color:#123f61;font-size:21pt;letter-spacing:1.4px;font-weight:800}
+.ownContractNo{margin-top:4mm;color:#6f7c86;font-size:9pt}
+.ownIntro{font-size:9.5pt;line-height:1.55;margin:0 0 6mm;color:#394650}
+.ownPartyTable{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9pt;margin-bottom:6mm}
+.ownPartyTable th{background:#0b4f84;color:#fff;border:1px solid #0b4f84;padding:2.4mm;text-align:center;font-size:9.6pt}
+.ownPartyTable td{border:1px solid #aab5bd;padding:2.1mm 2.5mm;vertical-align:top;line-height:1.42}
+.ownPartyTable td:first-child{border-right-color:#87959f}
+.ownLabel{display:inline-block;min-width:25mm;color:#0b4f84;font-size:8pt;font-weight:700;margin-right:2mm}
+.ownSeal{color:#6c7881;margin-left:2mm}
+.ownSummaryGrid{display:grid;grid-template-columns:1fr 1fr;border:1px solid #aab5bd;margin-bottom:6mm}
+.ownSummaryGrid>div{padding:3mm 3.2mm;border-right:1px solid #d2d9de;border-bottom:1px solid #d2d9de;min-height:15mm}
+.ownSummaryGrid>div:nth-child(2n){border-right:0}.ownSummaryGrid>div:nth-last-child(-n+2){border-bottom:0}
+.ownSummaryGrid span{display:block;color:#0b4f84;font-size:8pt;font-weight:700;margin-bottom:1.2mm}
+.ownSummaryGrid b{font-size:9.4pt;line-height:1.4}.ownSummaryGrid small{font-size:7.8pt;font-weight:500;color:#6d7780;margin-left:1mm}
+.ownScopeBox,.ownPaymentBox{border-left:3px solid #0b4f84;padding:0 0 0 3.5mm;margin:0 0 5mm}
+.ownScopeBox h2,.ownPaymentBox h2{font-size:10pt;color:#0b4f84;margin:0 0 2mm}
+.ownScopeBox ol{margin:0;padding-left:5mm;font-size:8.8pt;line-height:1.55}.ownScopeBox li{margin-bottom:1mm}
+.ownPaymentRow{display:flex;justify-content:space-between;max-width:95mm;font-size:8.8pt;line-height:1.6}.ownPaymentBox p{font-size:8pt;color:#69747d;margin:1.5mm 0 0}
+.ownDate{text-align:right;color:#66737d;font-size:8.8pt;margin-top:3mm}
+.ownPageHead{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid #9aa7b0;padding-bottom:3mm;margin-bottom:7mm}
+.ownPageHead span{font-size:7.5pt;letter-spacing:1px;color:#8a959d}.ownPageHead b{font-size:16pt;color:#123f61;letter-spacing:4px}.ownPageHead em{text-align:right;font-size:8pt;color:#8a959d;font-style:normal}
+.ownClause{margin:0 0 4.6mm;break-inside:avoid}
+.ownClause h2{font-size:10.5pt;color:#0b4f84;margin:0 0 1.3mm;border-left:2.5px solid #0b4f84;padding-left:2mm}
+.ownClause p{font-size:9.2pt;line-height:1.58;margin:0;color:#28353e}
+.ownTermsLast .ownClause{margin-bottom:4mm}.ownSpecial{margin-top:1mm}
+.ownSignature{position:absolute;left:15mm;right:15mm;bottom:24mm;display:grid;grid-template-columns:1fr 1fr;gap:10mm;border-top:1px solid #aab5bd;padding-top:5mm}
+.ownSignature>div{display:grid;grid-template-columns:18mm 1fr;row-gap:1.5mm;font-size:9pt}.ownSignature strong{grid-row:1/3;font-size:13pt;color:#0b4f84}.ownSignature span{line-height:1.45}
+.ownFooterDate{position:absolute;right:15mm;bottom:13mm;font-size:8.5pt;color:#707b83}
+
+@media(min-width:761px){.ownContractPage{box-shadow:0 5px 18px rgba(14,35,52,.08)}}
+@media(max-width:760px){
+ .ownContract{width:100%!important}
+ .ownContractPage{width:100%!important;height:auto!important;min-height:0!important;margin:0 0 14px!important;padding:18px 15px 22px!important;overflow:visible!important;box-shadow:none!important}
+ .ownHeader{display:block;margin-bottom:18px}.ownLogo{width:145px;margin-bottom:16px}.ownTitleWrap{text-align:left}.ownTitleWrap h1{font-size:23px;line-height:1.35;letter-spacing:0}.ownContractNo{margin-top:8px}
+ .ownPartyTable{display:block}.ownPartyTable thead{display:none}.ownPartyTable tbody{display:grid;gap:12px}.ownPartyTable tr{display:grid;grid-template-columns:1fr 1fr;border:1px solid #b9c4cb;border-radius:10px;overflow:hidden}.ownPartyTable td{border:0!important;padding:11px 12px;font-size:13px}.ownPartyTable td+td{border-left:1px solid #dbe2e7!important}.ownLabel{display:block;min-width:0;margin:0 0 4px;font-size:11px}
+ .ownSummaryGrid{grid-template-columns:1fr}.ownSummaryGrid>div{border-right:0;border-bottom:1px solid #d2d9de!important}.ownSummaryGrid>div:last-child{border-bottom:0!important}
+ .ownScopeBox ol{font-size:13px;line-height:1.65}.ownPaymentRow{font-size:13px}.ownPaymentBox p{font-size:12px}
+ .ownPageHead{grid-template-columns:1fr auto}.ownPageHead span{display:none}.ownPageHead b{font-size:20px;letter-spacing:2px}.ownClause{margin-bottom:22px}.ownClause h2{font-size:16px}.ownClause p{font-size:14px;line-height:1.75}
+ .ownSignature{position:static;grid-template-columns:1fr;gap:12px;margin-top:28px}.ownFooterDate{position:static;text-align:right;margin-top:16px}
+}
+@media(max-width:420px){.ownPartyTable tr{grid-template-columns:1fr}.ownPartyTable td+td{border-left:0!important;border-top:1px solid #dbe2e7!important}}
+.ownContract.contractPdfCapture .ownContractPage{width:210mm!important;height:297mm!important;min-height:297mm!important;margin:0!important;box-shadow:none!important;overflow:hidden!important;background:#fff!important}
+@media print{.ownContractPage{width:210mm!important;height:297mm!important;margin:0!important;box-shadow:none!important;break-after:page!important;page-break-after:always!important}.ownContractPage:last-child{break-after:auto!important;page-break-after:auto!important}}
+
+
+/* v5.9.2 — 계약서 전체 글/행/섹션 간격 정리 */
+.ownContract{
+  line-height:1.34!important;
+}
+.ownContractPage{
+  padding:11mm 14mm 10mm!important;
+}
+.ownTopLine{
+  margin-bottom:4.5mm!important;
+}
+.ownHeader{
+  margin-bottom:4.5mm!important;
+  gap:6mm!important;
+}
+.ownTitleWrap h1{
+  font-size:20pt!important;
+  letter-spacing:.6px!important;
+  line-height:1.18!important;
+}
+.ownContractNo{
+  margin-top:2.5mm!important;
+}
+.ownIntro{
+  margin:0 0 4mm!important;
+  line-height:1.4!important;
+}
+.ownPartyTable{
+  margin-bottom:4mm!important;
+}
+.ownPartyTable th{
+  padding:1.7mm 2mm!important;
+}
+.ownPartyTable td{
+  padding:1.55mm 2.1mm!important;
+  line-height:1.28!important;
+}
+.ownLabel{
+  margin-right:1.5mm!important;
+}
+.ownSummaryGrid{
+  margin-bottom:4mm!important;
+}
+.ownSummaryGrid>div{
+  padding:2mm 2.6mm!important;
+  min-height:11mm!important;
+}
+.ownSummaryGrid span{
+  margin-bottom:.7mm!important;
+}
+.ownSummaryGrid b{
+  line-height:1.28!important;
+}
+.ownScopeBox,.ownPaymentBox{
+  margin-bottom:3mm!important;
+  padding-left:3mm!important;
+}
+.ownScopeBox h2,.ownPaymentBox h2{
+  margin-bottom:1.2mm!important;
+}
+.ownScopeBox ol{
+  line-height:1.38!important;
+}
+.ownScopeBox li{
+  margin-bottom:.45mm!important;
+}
+.ownPaymentRow{
+  line-height:1.35!important;
+}
+.ownPaymentBox p{
+  margin-top:.8mm!important;
+  line-height:1.3!important;
+}
+.ownDate{
+  margin-top:1.5mm!important;
+}
+.ownPageHead{
+  margin-bottom:5mm!important;
+  padding-bottom:2.2mm!important;
+}
+.ownPageHead b{
+  letter-spacing:2.5px!important;
+}
+.ownClause{
+  margin-bottom:3.2mm!important;
+}
+.ownClause h2{
+  margin-bottom:.8mm!important;
+  line-height:1.25!important;
+}
+.ownClause p{
+  line-height:1.48!important;
+}
+.ownTermsLast .ownClause{
+  margin-bottom:2.8mm!important;
+}
+.ownSignature{
+  padding-top:3.5mm!important;
+  row-gap:1mm!important;
+}
+.ownFooterDate{
+  bottom:11mm!important;
+}
+
+/* 모바일도 같은 리듬으로 조밀하게 */
+@media(max-width:760px){
+  .ownContractPage{
+    padding:16px 14px 18px!important;
+  }
+  .ownHeader{
+    margin-bottom:14px!important;
+  }
+  .ownLogo{
+    margin-bottom:12px!important;
+  }
+  .ownTitleWrap h1{
+    font-size:22px!important;
+    line-height:1.25!important;
+  }
+  .ownIntro{
+    margin-bottom:12px!important;
+    line-height:1.5!important;
+  }
+  .ownPartyTable tbody{
+    gap:8px!important;
+  }
+  .ownPartyTable td{
+    padding:9px 10px!important;
+    line-height:1.42!important;
+  }
+  .ownSummaryGrid>div{
+    min-height:0!important;
+    padding:10px 11px!important;
+  }
+  .ownScopeBox,.ownPaymentBox{
+    margin-bottom:14px!important;
+  }
+  .ownScopeBox ol{
+    line-height:1.52!important;
+  }
+  .ownClause{
+    margin-bottom:16px!important;
+  }
+  .ownClause h2{
+    margin-bottom:6px!important;
+  }
+  .ownClause p{
+    line-height:1.58!important;
+  }
+  .ownSignature{
+    margin-top:20px!important;
+  }
+}
+
+
+/* v5.9.4 — 승인 시안 기준 계약서 1페이지 정렬 보정 */
+.ownCoverPage{
+  padding:12mm 14mm 12mm!important;
+}
+.ownHeader{
+  margin-bottom:5.5mm!important;
+  align-items:flex-start!important;
+}
+.ownLogo{
+  width:49mm!important;
+}
+.ownTitleWrap h1{
+  font-size:20.5pt!important;
+  letter-spacing:.8px!important;
+}
+.ownIntro{
+  margin:0 0 5mm!important;
+  font-size:9.3pt!important;
+  line-height:1.45!important;
+}
+.ownPartyTable{
+  margin-bottom:5mm!important;
+  table-layout:fixed!important;
+}
+.ownPartyTable th{
+  padding:2mm!important;
+}
+.ownPartyTable td{
+  padding:1.8mm 2.2mm!important;
+  vertical-align:middle!important;
+  line-height:1.35!important;
+}
+.ownLabel{
+  width:28mm!important;
+  min-width:28mm!important;
+  display:inline-block!important;
+  vertical-align:top!important;
+}
+.ownContactRow td{
+  vertical-align:top!important;
+}
+.ownContactValue{
+  display:inline-flex!important;
+  flex-direction:column!important;
+  gap:.55mm!important;
+  vertical-align:top!important;
+  line-height:1.3!important;
+}
+.ownContactValue b{
+  font-weight:700!important;
+}
+.ownContactValue span{
+  white-space:nowrap!important;
+}
+.ownSummaryGrid{
+  margin-bottom:5mm!important;
+}
+.ownSummaryGrid>div{
+  padding:2.4mm 2.8mm!important;
+  min-height:12mm!important;
+}
+.ownScopeBox{
+  margin-bottom:4.2mm!important;
+  padding-left:3.4mm!important;
+}
+.ownPaymentBox{
+  margin-bottom:4.2mm!important;
+  padding-left:3.4mm!important;
+}
+.ownScopeBox h2,.ownPaymentBox h2{
+  font-size:10.2pt!important;
+  margin-bottom:1.5mm!important;
+}
+.ownScopeBox ol{
+  font-size:8.7pt!important;
+  line-height:1.45!important;
+}
+.ownPaymentRow{
+  max-width:110mm!important;
+  font-size:8.9pt!important;
+  line-height:1.45!important;
+}
+.ownPaymentBox p{
+  font-size:7.9pt!important;
+  margin-top:1mm!important;
+}
+.ownDateRow{
+  display:flex!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  gap:4mm!important;
+  margin-top:5mm!important;
+  padding-top:2.5mm!important;
+  border-top:1px solid #d9e0e5!important;
+  color:#66737d!important;
+  font-size:8.8pt!important;
+}
+.ownDateRow span{
+  color:#0b4f84!important;
+  font-weight:700!important;
+}
+.ownAmountWarning em{
+  display:block!important;
+  margin-top:1mm!important;
+  color:#b42318!important;
+  font-size:7.6pt!important;
+  font-style:normal!important;
+}
+@media(max-width:760px){
+  .ownPartyTable tr{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .ownLabel{
+    width:auto!important;
+    min-width:0!important;
+    display:block!important;
+    margin-bottom:4px!important;
+  }
+  .ownContactValue{
+    display:flex!important;
+  }
+  .ownDateRow{
+    margin-top:16px!important;
+    padding-top:10px!important;
+    font-size:13px!important;
+  }
+}
+
+
+/* v5.9.5 — 승인한 시안과 동일한 비율/간격으로 1페이지 재조정 */
+.ownCoverPage{
+  padding:13mm 14mm 13mm!important;
+}
+.ownTopLine{
+  height:1.1mm!important;
+  margin-bottom:7mm!important;
+}
+.ownHeader{
+  margin-bottom:7mm!important;
+  gap:8mm!important;
+}
+.ownLogo{
+  width:52mm!important;
+}
+.ownTitleWrap h1{
+  font-size:23pt!important;
+  line-height:1.2!important;
+  letter-spacing:.6px!important;
+}
+.ownContractNo{
+  margin-top:3mm!important;
+  font-size:9.5pt!important;
+}
+.ownIntro{
+  font-size:10pt!important;
+  line-height:1.5!important;
+  margin-bottom:6.5mm!important;
+}
+.ownPartyTable{
+  margin-bottom:7mm!important;
+  font-size:9.6pt!important;
+}
+.ownPartyTable th{
+  padding:2.6mm 2.2mm!important;
+  font-size:10.1pt!important;
+}
+.ownPartyTable td{
+  padding:2.6mm 2.7mm!important;
+  line-height:1.45!important;
+}
+.ownLabel{
+  min-width:28mm!important;
+  width:28mm!important;
+  font-size:8.6pt!important;
+}
+.ownContactValue{
+  gap:.9mm!important;
+  line-height:1.4!important;
+}
+.ownSummaryGrid{
+  margin-bottom:7mm!important;
+}
+.ownSummaryGrid>div{
+  min-height:17mm!important;
+  padding:3.2mm 3.3mm!important;
+}
+.ownSummaryGrid span{
+  font-size:8.7pt!important;
+  margin-bottom:1.6mm!important;
+}
+.ownSummaryGrid b{
+  font-size:10pt!important;
+  line-height:1.4!important;
+}
+.ownScopeBox,
+.ownPaymentBox{
+  margin-bottom:6mm!important;
+  padding-left:4mm!important;
+}
+.ownScopeBox{
+  padding-top:.5mm!important;
+}
+.ownScopeBox h2,
+.ownPaymentBox h2{
+  font-size:12pt!important;
+  margin-bottom:2.6mm!important;
+}
+.ownScopeBox ol{
+  font-size:9.4pt!important;
+  line-height:1.62!important;
+  padding-left:6mm!important;
+}
+.ownScopeBox li{
+  margin-bottom:1.1mm!important;
+}
+.ownPaymentRow{
+  max-width:120mm!important;
+  font-size:9.5pt!important;
+  line-height:1.7!important;
+}
+.ownPaymentBox p{
+  font-size:8.5pt!important;
+  line-height:1.45!important;
+  margin-top:1.8mm!important;
+}
+.ownDateRow{
+  margin-top:7mm!important;
+  padding-top:3.5mm!important;
+  font-size:9.2pt!important;
+  border-top:1px solid #d8e0e5!important;
+}
+.ownAmountWarning em{
+  font-size:8pt!important;
+  margin-top:1.3mm!important;
+}
+
+/* 페이지 하단이 과하게 비지 않도록 1페이지 구성 자체를 넉넉하게 사용 */
+.ownCoverPage .ownPartyTable,
+.ownCoverPage .ownSummaryGrid,
+.ownCoverPage .ownScopeBox,
+.ownCoverPage .ownPaymentBox{
+  page-break-inside:avoid!important;
+}
+
+/* 모바일에서는 A4 축소가 아니라 실제 읽기 좋은 카드형 */
+@media(max-width:760px){
+  .ownCoverPage{
+    padding:18px 15px 22px!important;
+  }
+  .ownTopLine{
+    margin-bottom:16px!important;
+  }
+  .ownLogo{
+    width:155px!important;
+  }
+  .ownTitleWrap h1{
+    font-size:24px!important;
+  }
+  .ownIntro{
+    font-size:14px!important;
+    line-height:1.55!important;
+    margin-bottom:16px!important;
+  }
+  .ownPartyTable{
+    margin-bottom:16px!important;
+  }
+  .ownPartyTable td{
+    padding:12px!important;
+    font-size:13px!important;
+    line-height:1.5!important;
+  }
+  .ownSummaryGrid{
+    margin-bottom:16px!important;
+  }
+  .ownSummaryGrid>div{
+    min-height:0!important;
+    padding:12px!important;
+  }
+  .ownScopeBox,
+  .ownPaymentBox{
+    margin-bottom:18px!important;
+  }
+  .ownScopeBox h2,
+  .ownPaymentBox h2{
+    font-size:17px!important;
+  }
+  .ownScopeBox ol,
+  .ownPaymentRow{
+    font-size:14px!important;
+  }
+  .ownDateRow{
+    margin-top:18px!important;
+    font-size:13px!important;
+  }
+}
+
+/* PDF/인쇄에서도 위 비율을 그대로 유지 */
+.ownContract.contractPdfCapture .ownCoverPage{
+  width:210mm!important;
+  height:297mm!important;
+  padding:13mm 14mm 13mm!important;
+}
+
+
+/* v5.9.6 주소 줄맞춤 보정 */
+.ownFieldPair{display:flex;align-items:flex-start;gap:0}
+.ownFieldPair .ownLabel{flex:0 0 28mm;min-width:28mm;width:28mm;margin-right:0!important}
+.ownAddressValue{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;line-height:1.45;gap:.4mm;flex:1;min-width:0}
+.ownAddressValue span{display:block}
+@media(max-width:760px){
+  .ownFieldPair{display:block}
+  .ownFieldPair .ownLabel{display:block;width:auto;min-width:0;margin:0 0 4px!important}
+  .ownAddressValue{gap:2px}
+}
+
+/* v5.9.7 — 담당자 행 하단선 보정 */
+.ownPartyTable .ownContactRow td{
+  border-bottom:1px solid #aab5bd!important;
+}
+.ownPartyTable .ownContactRow td:first-child{
+  border-left:1px solid #aab5bd!important;
+}
+.ownPartyTable .ownContactRow td:last-child{
+  border-right:1px solid #aab5bd!important;
+}
+@media(max-width:760px){
+  .ownPartyTable .ownContactRow td{
+    border-bottom:1px solid #dbe2e7!important;
+  }
+  .ownPartyTable .ownContactRow td:last-child{
+    border-bottom:0!important;
+  }
+}
+
+
+/* v5.9.8 — 인쇄/PDF 가독성 및 앱 UI 제거 */
+/* 견적서 A4 실제 글자 크기 확대 */
+.syQuoteTitle{font-size:34px!important}
+.syQuoteNo{font-size:11px!important}
+.syReceiver .quoteDate{font-size:10.5px!important}
+.syReceiver h2{font-size:22px!important}
+.syReceiver p{font-size:12px!important;line-height:1.5!important}
+.supplierTable{font-size:11px!important}
+.supplierTable th,.supplierTable td{font-size:11px!important;line-height:1.35!important}
+.syTotalLine span{font-size:12px!important}
+.syTotalLine strong{font-size:22px!important}
+.syItems{font-size:11.5px!important}
+.syItems th{font-size:11.5px!important;padding:8px!important}
+.syItems td{font-size:11.5px!important;padding:8px!important;height:28px!important}
+.syNotice h3{font-size:12px!important}
+.syNotice p{font-size:11px!important;line-height:1.55!important}
+
+@media print{
+  @page{size:A4 portrait;margin:0}
+  html,body{background:#fff!important;margin:0!important;padding:0!important;overflow:visible!important}
+  /* 상단 SHINYANG, 알림, 로그아웃 / 하단 모바일 메뉴 / 사이드바 전부 인쇄 제외 */
+  .mobileHeader,.mobileBottomNav,.drawerBackdrop,.drawerClose,.sidebar,.noPrint{display:none!important}
+  .app{display:block!important;padding:0!important;margin:0!important;min-height:0!important}
+  .content{margin:0!important;padding:0!important;width:100%!important;max-width:none!important}
+  .content>*:not(.modalBack){display:none!important}
+  .modalBack{position:static!important;inset:auto!important;display:block!important;background:transparent!important;padding:0!important;margin:0!important}
+  .quoteSheet,.contractSheet{width:210mm!important;max-width:210mm!important;max-height:none!important;overflow:visible!important;border-radius:0!important;box-shadow:none!important;padding:0!important;margin:0!important;background:#fff!important}
+  .syQuoteViewport,.syContractViewport{height:auto!important;width:210mm!important;overflow:visible!important;margin:0!important;padding:0!important}
+  .syQuote,.ownContract{transform:none!important;transform-origin:top left!important;margin:0!important;box-shadow:none!important}
+  .syQuote{width:210mm!important;min-height:297mm!important;padding:10mm!important}
+  .ownContract{width:210mm!important}
+  .ownContractPage{box-shadow:none!important;margin:0!important;page-break-after:always!important;break-after:page!important}
+  .ownContractPage:last-child{page-break-after:auto!important;break-after:auto!important}
+}
+
+
+/* v5.10.0 — 계약조건 가독성/페이지 흐름 개선 */
+/* 제10조를 2페이지로 이어 배치하고, 본문은 자간·행간·글자 크기를 소폭 확대 */
+.ownTermsPage .ownClause h2{
+  font-size:10.8pt!important;
+  line-height:1.32!important;
+  letter-spacing:.12px!important;
+  margin-bottom:1mm!important;
+}
+.ownTermsPage .ownClause p{
+  font-size:9.45pt!important;
+  line-height:1.62!important;
+  letter-spacing:.16px!important;
+}
+.ownTermsPage .ownClause{
+  margin-bottom:3.25mm!important;
+}
+.ownTermsPage .ownPageHead{
+  margin-bottom:4.6mm!important;
+}
+.ownTermsLast .ownClause{
+  margin-bottom:3.2mm!important;
+}
+.ownTermsLast .ctPre{
+  line-height:1.58!important;
+  letter-spacing:.14px!important;
+}
+@media(max-width:760px){
+  .ownTermsPage .ownClause h2{font-size:16.5px!important;line-height:1.38!important;letter-spacing:.1px!important}
+  .ownTermsPage .ownClause p{font-size:14.3px!important;line-height:1.72!important;letter-spacing:.12px!important}
+  .ownTermsPage .ownClause{margin-bottom:18px!important}
+}
+
+
+/* v5.10.2 — 3페이지 특약사항-서명영역 과도한 공백 축소 */
+.ownTermsLast{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+}
+.ownTermsLast .ownSpecial{
+  margin-bottom:0!important;
+}
+.ownTermsLast .ownSignature{
+  position:static!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  margin-top:6mm!important;
+  padding-top:4mm!important;
+  border-top:1px solid #aab5bd!important;
+}
+.ownTermsLast .ownFooterDate{
+  position:static!important;
+  right:auto!important;
+  bottom:auto!important;
+  margin-top:4mm!important;
+  text-align:right!important;
+}
+/* PDF 캡처/인쇄에서도 동일하게 본문 바로 아래 서명영역 배치 */
+@media print{
+  .ownTermsLast .ownSignature{
+    position:static!important;
+    margin-top:6mm!important;
+  }
+  .ownTermsLast .ownFooterDate{
+    position:static!important;
+    margin-top:4mm!important;
+    text-align:right!important;
+  }
+}
+
+
+/* v5.10.8 — 견적서/계약서 최종 문서 레이아웃 풀체크 */
+.supplierTable .companyNameCell{
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  font-size:10.4px!important;
+  letter-spacing:-.15px!important;
+}
+.supplierTable .companyAddressCell{
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  line-height:1.25!important;
+}
+.supplierTable .managerCell{
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  font-size:10.2px!important;
+  letter-spacing:-.12px!important;
+}
+.supplierTable .phoneCell{
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  font-size:10.2px!important;
+  letter-spacing:-.08px!important;
+  font-variant-numeric:tabular-nums;
+}
+
+/* 계약서 담당자: 라벨 + 이름/직책 + 휴대폰을 한 줄로 */
+.ownPartyTable .ownContactRow td{
+  white-space:nowrap!important;
+  vertical-align:middle!important;
+}
+.ownPartyTable .ownContactRow .ownLabel{
+  display:inline-block!important;
+  width:auto!important;
+  min-width:0!important;
+  margin:0 2.5mm 0 0!important;
+  vertical-align:middle!important;
+  white-space:nowrap!important;
+}
+.ownPartyTable .ownContactRow .ownContactValue{
+  display:inline-flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  gap:2.5mm!important;
+  vertical-align:middle!important;
+  white-space:nowrap!important;
+  line-height:1.25!important;
+  font-size:9.1pt!important;
+}
+.ownPartyTable .ownContactRow .ownContactValue b,
+.ownPartyTable .ownContactRow .ownContactValue span{
+  display:inline!important;
+  white-space:nowrap!important;
+  margin:0!important;
+}
+
+
+/* v5.11.0 — 견적서 유의사항 최종 정리 */
+.syNotice{
+  margin-top:10mm!important;
+  min-height:0!important;
+  border:.7px solid #a4adb2!important;
+  background:#fff!important;
+}
+.syNotice h3{
+  margin:0!important;
+  padding:1.7mm 4.5mm!important;
+  background:#075282!important;
+  color:#fff!important;
+  font-size:10.5px!important;
+  line-height:1.25!important;
+  font-weight:700!important;
+}
+.syNoticeBody{
+  padding:2.8mm 5.2mm 3mm!important;
+}
+.syNoticeRow{
+  display:grid!important;
+  grid-template-columns:3.2mm minmax(0,1fr)!important;
+  align-items:start!important;
+  column-gap:1.2mm!important;
+  margin:0 0 1.6mm!important;
+  padding:0!important;
+  font-size:10.2px!important;
+  line-height:1.5!important;
+  color:#333!important;
+  font-weight:400!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+.syNoticeRow:last-child{
+  margin-bottom:0!important;
+}
+.syNoticeBullet{
+  display:block!important;
+  color:#0b4f84!important;
+  font-size:10px!important;
+  line-height:1.5!important;
+  text-align:center!important;
+  font-weight:700!important;
+}
+.syNoticePayment{
+  margin-top:.7mm!important;
+}
+.syNoticePayment b{
+  font-weight:700!important;
+  color:#333!important;
+}
+.syNoticeColon{
+  display:inline!important;
+}
+
+/* 기존 p 기반 유의사항 스타일 영향 차단 */
+.syNotice p,
+.syNotice p::first-letter{
+  all:unset;
+}
+
+
+/* v5.11.1 — 계약서 1페이지 상단 파란 라인 제거 */
+.ownTopLine{
+  display:none !important;
+  height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+}
+
+
+/* v5.11.3 — PC 문서 직접 수정 UX */
+.desktopEditGuide{
+  margin:-4px 0 16px;
+  padding:10px 12px;
+  border:1px solid #dbe4ea;
+  border-radius:8px;
+  background:#f6f9fb;
+  color:#53636e;
+  font-size:12px;
+  line-height:1.5;
+}
+@media(min-width:761px){
+  .quoteEditor,.contractEditor{
+    width:min(980px,94vw)!important;
+    max-height:90vh!important;
+  }
+  .quoteEditor .formGrid,.contractEditor .formGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .quoteEditor .formGrid .full,.contractEditor .formGrid .full{
+    grid-column:1/-1!important;
+  }
+  .desktopDirectEdit{
+    border-color:#0b5a8d!important;
+    color:#0b5a8d!important;
+    font-weight:700!important;
+    background:#f4f9fc!important;
+  }
+}
+@media(max-width:760px){
+  .desktopEditGuide{
+    display:none!important;
+  }
+}

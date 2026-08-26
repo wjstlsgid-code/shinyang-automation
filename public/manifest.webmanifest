@@ -1,0 +1,14 @@
+{
+  "name": "신양파트너스 업무자동화",
+  "short_name": "신양파트너스",
+  "description": "신양파트너스 환경컨설팅 업무 통합 관리",
+  "start_url": "/login",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f4f8a",
+  "icons": [
+    {"src":"/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"}
+  ]
+}
