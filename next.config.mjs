@@ -24,6 +24,12 @@ function loadSimpleEnv(filename) {
 loadSimpleEnv('env.local');
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: 'https://qcklrpnqqodvwazlvsqq.supabase.co',
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: 'sb_publishable_cdO37wqSZj1W-R3kn8nZbQ_g1SSH0H6',
+  },
+};
+
 
 export default nextConfig;
