@@ -9,7 +9,30 @@ export type Task = { id:string; project_id:string|null; title:string; assignee_i
 export type Billing = { id:string; project_id:string; billing_type:string; amount:number; due_date:string|null; tax_invoice_status:string; project?:{project_name:string;client?:{name:string}|null}|null }
 export type Payment = { id:string; billing_id:string; amount:number; paid_at:string; memo:string|null }
 export type ChecklistItem = { id:string; project_id:string; label:string; sort_order:number; is_required:boolean; done:boolean; done_at:string|null; note:string|null; created_at:string; project?:{project_name:string;permit_type:string;client?:{name:string}|null}|null }
-export type ProjectFile = { id:string; project_id:string; file_name:string; storage_path:string; content_type:string|null; size_bytes:number|null; uploaded_by:string|null; created_at:string; version_no?:number; logical_name?:string|null; is_latest?:boolean; uploader?:{name:string}|null }
+export type ProjectFile = {
+  id: string
+  project_id: string | null
+  task_id?: string | null
+  file_name: string
+  storage_path: string
+  content_type: string | null
+  size_bytes: number | null
+  uploaded_by: string | null
+  created_at: string
+
+  version_no?: number
+  logical_name?: string | null
+  is_latest?: boolean
+
+  deleted_at?: string | null
+  deleted_by?: string | null
+  purge_after?: string | null
+
+  uploader?: { name: string } | null
+  deleter?: { name: string } | null
+  project?: { project_name: string } | null
+  task?: { title: string } | null
+}
 export type QuoteItem = { id?:string; quote_id?:string; sort_order:number; item_name:string; description:string|null; quantity:number; unit:string; unit_price:number; supply_amount:number; vat_amount:number; remark:string|null }
 export type Quote = { id:string; client_id:string; project_id:string|null; quote_no:string; quote_date?:string; version_no?:number; title:string; supply_amount:number; vat_amount:number; total_amount:number; discount_amount?:number; validity_days:number; vat_mode?:string; payment_terms?:string; customer_note?:string|null; internal_note?:string|null; note:string|null; status:string; sent_at?:string|null; accepted_at?:string|null; converted_project_id?:string|null; created_at:string; created_by?:string|null; client?:{name:string;biz_no:string|null;contact_name:string|null;email:string|null;address:string|null;phone?:string|null}|null; project?:{project_name:string}|null; creator?:{name:string;phone?:string|null;email?:string|null;department?:string|null}|null; items?:QuoteItem[] }
 export type AlertItem = { type:'마감'|'보완'|'미수금'|'세금계산서'; title:string; detail:string; due_date:string|null; severity:'danger'|'warn'|'info'; href:string }
