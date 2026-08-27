@@ -8,7 +8,7 @@ import type { Client,Project,Quote,QuoteItem } from '@/lib/types'
 type DraftItem={item_name:string;description:string;quantity:string;unit:string;unit_price:string;remark:string}
 const emptyItem:DraftItem={item_name:'환경인허가 컨설팅',description:'',quantity:'1',unit:'식',unit_price:'0',remark:''}
 const defaultCustomerNote='상기 합계 금액은 부가가치세(VAT)가 포함된 금액입니다.\n본 견적서는 제공된 요구사항을 기준으로 작성되었으며, 추가 요청 사항 발생 시 견적 금액이 변경될 수 있습니다.\n본 견적서는 견적일로부터 1개월간 유효합니다.'
-const company={bizNo:'140-81-90037',name:'신양파트너스(주)',ceo:'박세훈',address:'인천광역시 남동구 호구포로 194, 더마크원 IT동 1302호',business:'전문기술서비스 및 제조',category:'환경컨설팅 · 환경기술개발\n자원순환관련시설 컨설팅',manager:'전유경',mobile:'010-5822-0737'}
+const company={bizNo:'140-81-90037',name:'신양파트너스(주)',ceo:'박세훈',address:'인천광역시 남동구 호구포로 194, 더마크원 IT동 1302호',business:'전문기술서비스 및 제조',category:'환경컨설팅·환경기술개발\n자원순환관련시설컨설팅',manager:'전유경',mobile:'010-5822-0737'}
 
 export default function Quotes(){
  const {staff}=useAuth(); const can=staff?.role==='ADMIN'||staff?.role==='MANAGER'; const quoteRef=useRef<HTMLDivElement|null>(null); const quoteViewportRef=useRef<HTMLDivElement|null>(null); const [quoteScale,setQuoteScale]=useState(1); const [quoteHeight,setQuoteHeight]=useState(0); const [pdfBusy,setPdfBusy]=useState(false),[mailBusy,setMailBusy]=useState(false)
@@ -100,6 +100,7 @@ export default function Quotes(){
  }catch(e:any){setErr(e.message||'저장 실패')}finally{setBusy(false)}}
  async function openQuote(q:Quote){const {data}=await supabase.from('quote_item').select('*').eq('quote_id',q.id).order('sort_order');setSelected({...q,items:(data||[]) as QuoteItem[]})}
  async function setStatus(q:Quote,status:string){const patch:any={status};if(status==='발송')patch.sent_at=new Date().toISOString();if(status==='수주')patch.accepted_at=new Date().toISOString();const {error}=await supabase.from('quote').update(patch).eq('id',q.id);if(error)alert(error.message);else{setSelected(s=>s?{...s,...patch}:s);load()}}
+ async function deleteQuote(q:Quote){if(!can)return;const linked=q.converted_project_id?'\n\n※ 이 견적에서 생성된 계약 프로젝트/수금자료는 삭제되지 않습니다.':'';if(!confirm(`${q.quote_no} 견적서를 삭제할까요?${linked}`))return;const now=new Date().toISOString();const {error}=await supabase.from('quote').update({deleted_at:now}).eq('id',q.id);if(error){alert('견적서 삭제 실패: '+error.message);return}await supabase.from('activity_log').insert({actor_id:staff?.id,entity_type:'quote',entity_id:q.id,action:'delete',summary:`${q.quote_no} 견적서 삭제`});setSelected(null);await load()}
  async function clone(q:Quote){const its=q.items||[];setForm({client_id:q.client_id,project_id:q.project_id||'',title:q.title,quote_date:new Date().toISOString().slice(0,10),validity_days:String(q.validity_days||30),vat_mode:q.vat_mode||'포함',payment_terms:q.payment_terms||'착수금 60% / 잔금 40%',status:'작성',discount_amount:String(q.discount_amount||0),customer_note:q.customer_note||q.note||defaultCustomerNote,internal_note:q.internal_note||''});setItems(its.length?its.map(x=>({item_name:x.item_name,description:x.description||'',quantity:String(x.quantity),unit:x.unit,unit_price:String(x.unit_price),remark:x.remark||''})):[{...emptyItem}]);setSelected(null);setOpen(true)}
  function splitTerms(text:string,total:number){if(text.includes('60%')&&text.includes('40%'))return [['계약금',.6],['잔금',.4]] as const;if(text.includes('50%'))return [['계약금',.5],['잔금',.5]] as const;return [['계약금',1]] as const}
  async function makePdf(){
@@ -133,25 +134,57 @@ export default function Quotes(){
  <div className="quoteItemEditor"><div className="quoteItemHead"><b>품목</b><button type="button" className="secondary smallBtn" onClick={()=>setItems([...items,{...emptyItem,item_name:''}])}><Plus size={13}/> 품목 추가</button></div>{items.map((x,i)=><div className="quoteItemRow" key={i}><input aria-label="품목명" placeholder="품목명" value={x.item_name} onChange={e=>setItems(items.map((v,n)=>n===i?{...v,item_name:e.target.value}:v))}/><input aria-label="내용" placeholder="규격 / 내용" value={x.description} onChange={e=>setItems(items.map((v,n)=>n===i?{...v,description:e.target.value}:v))}/><input aria-label="수량" type="number" min="0.01" step="0.01" value={x.quantity} onChange={e=>setItems(items.map((v,n)=>n===i?{...v,quantity:e.target.value}:v))}/><input aria-label="단위" value={x.unit} onChange={e=>setItems(items.map((v,n)=>n===i?{...v,unit:e.target.value}:v))}/><input aria-label="단가" type="number" min="0" value={x.unit_price} onChange={e=>setItems(items.map((v,n)=>n===i?{...v,unit_price:e.target.value}:v))}/><button type="button" className="dangerBtn" disabled={items.length===1} onClick={()=>setItems(items.filter((_,n)=>n!==i))}><Trash2 size={14}/></button></div>)}</div>
  <div className="formGrid"><label>VAT<select value={form.vat_mode} onChange={e=>setForm({...form,vat_mode:e.target.value})}><option>포함</option><option>별도</option><option>면세</option></select></label><label>할인액<input type="number" min="0" value={form.discount_amount} onChange={e=>setForm({...form,discount_amount:e.target.value})}/></label><label>결제조건<select value={form.payment_terms} onChange={e=>setForm({...form,payment_terms:e.target.value})}><option>착수금 60% / 잔금 40%</option><option>착수금 50% / 잔금 50%</option><option>일시불 100%</option></select></label><label>상태<select value={form.status} onChange={e=>setForm({...form,status:e.target.value})}><option>작성</option><option>발송</option><option>보류</option></select></label><label className="full">고객용 유의사항<textarea rows={4} value={form.customer_note} onChange={e=>setForm({...form,customer_note:e.target.value})}/></label><label className="full">내부 메모 (PDF 미표시)<textarea rows={2} value={form.internal_note} onChange={e=>setForm({...form,internal_note:e.target.value})}/></label></div>
  <div className="quoteCalc"><span>공급가액 <b>{totals.supply.toLocaleString()}원</b></span><span>VAT <b>{totals.vat.toLocaleString()}원</b></span><span className="grand">합계 <b>{totals.total.toLocaleString()}원</b></span></div>{err&&<div className="error">{err}</div>}<div className="actions stickyActions"><button type="button" className="secondary" onClick={()=>{setOpen(false);setEditingId(null)}}>취소</button><button className="primary" disabled={busy}>{busy?'저장 중...':editingId?'수정내용 저장':'저장'}</button></div></form></div>}
- {selected&&<div className="modalBack"><div className="quoteSheet"><div className="noPrint toolbar quoteTools"><button className="secondary" onClick={()=>setSelected(null)}>닫기</button>{can&&<button className="secondary desktopDirectEdit" onClick={()=>editQuote(selected)}><Pencil size={14}/> 직접 수정</button>}{can&&<button className="secondary" onClick={()=>clone(selected)}><Copy size={14}/> 복제</button>}{can&&selected.status!=='발송'&&<button className="secondary" onClick={()=>setStatus(selected,'발송')}><Send size={14}/> 발송처리</button>}{can&&<button className="secondary" onClick={()=>convert(selected)}><FileCheck2 size={14}/> 계약 프로젝트 전환</button>}{can&&<button className="secondary" onClick={()=>{location.href=`/contracts?quote=${selected.id}`}}><FileCheck2 size={14}/> 계약서 작성</button>}<button className="secondary" disabled={mailBusy} onClick={sendQuoteMail}><Mail size={14}/> {mailBusy?'발송 중...':'견적서 메일발송'}</button><button className="secondary" disabled={pdfBusy} onClick={downloadPdf}><Download size={14}/> {pdfBusy?'PDF 생성 중...':'PDF 다운로드'}</button><button className="primary" onClick={()=>window.print()}><Printer size={14}/> 인쇄</button></div>
- <div className="syQuoteViewport" ref={quoteViewportRef} style={{height:quoteHeight?`${quoteHeight}px`:undefined}}><div className="syQuote" ref={quoteRef} style={{transform:`scale(${quoteScale})`}}><div className="syQuoteTop"><div className="syBrand"><img src="/email-signature-logo.jpg" alt="신양파트너스(주)"/></div><div className="syQuoteTitle">견 적 서</div><div className="syQuoteNo">No. {selected.quote_no}</div></div>
- <div className="syQuoteInfo"><div className="syReceiver"><div className="quoteDate">{(()=>{const d=new Date(selected.quote_date||selected.created_at);return `${d.getFullYear()}년 ${String(d.getMonth()+1).padStart(2,'0')}월 ${String(d.getDate()).padStart(2,'0')}일`})()}</div><h2>{selected.client?.name} 귀하</h2><p>참조 : {selected.client?.contact_name||''}</p><p>아래와 같이 견적합니다.</p></div><div className="supplierWrap"><div className="verticalLabel">공<br/>급<br/>자</div><table className="supplierTable"><tbody><tr><th>사업자<br/>번호</th><td colSpan={3} className="bizNo">{company.bizNo}</td></tr><tr><th>상 호</th><td className="companyNameCell">{company.name}</td><th>대표이사</th><td className="ceoCell"><span>{company.ceo}</span><span className="quoteSealPlaceholder">(인)</span></td></tr><tr><th>소재지</th><td colSpan={3} className="companyAddressCell">{company.address}</td></tr><tr><th>업 태</th><td>{company.business}</td><th>종 목</th><td className="categoryCell">{company.category}</td></tr><tr><th>담당자</th><td className="managerCell">{`팀장 ${quoteManagerName}`}</td><th>번 호</th><td className="phoneCell">{quoteManagerPhone}</td></tr></tbody></table></div></div>
- <div className="syTotalLine"><span>합계 금액</span><strong>₩{Number(selected.total_amount).toLocaleString()}원정</strong><b>(VAT {selected.vat_mode==='별도'?'별도':selected.vat_mode==='면세'?'면세':'포함'})</b></div>
- <table className="syItems"><thead><tr><th>품 명</th><th>수 량</th><th>단 가</th><th>공급가액</th><th>세 액</th><th>비 고</th></tr></thead><tbody>{selectedItems.map((x,i)=><tr key={x.id||i}><td><b>{x.item_name}</b></td><td>{Number(x.quantity).toLocaleString()} {x.unit}</td><td>{Number(x.unit_price).toLocaleString()}</td><td>{Number(x.supply_amount).toLocaleString()}</td><td>{Number(x.vat_amount).toLocaleString()}</td><td>{x.remark||''}</td></tr>)}{Array.from({length:Math.max(0,6-selectedItems.length)}).map((_,i)=><tr key={'e'+i}><td>&nbsp;</td><td/><td/><td/><td/><td/></tr>)}</tbody></table>
- <div className="syNotice">
-  <h3>유의사항</h3>
-  <div className="syNoticeBody">
+ {selected&&<div className="modalBack"><div className="quoteSheet"><div className="noPrint toolbar quoteTools"><button className="secondary" onClick={()=>setSelected(null)}>닫기</button>{can&&<button className="secondary desktopDirectEdit" onClick={()=>editQuote(selected)}><Pencil size={14}/> 직접 수정</button>}{can&&<button className="secondary" onClick={()=>clone(selected)}><Copy size={14}/> 복제</button>}{can&&selected.status!=='발송'&&<button className="secondary" onClick={()=>setStatus(selected,'발송')}><Send size={14}/> 발송처리</button>}{can&&<button className="secondary" onClick={()=>convert(selected)}><FileCheck2 size={14}/> 계약 프로젝트 전환</button>}{can&&<button className="secondary" onClick={()=>{location.href=`/contracts?quote=${selected.id}`}}><FileCheck2 size={14}/> 계약서 작성</button>}<button className="secondary" disabled={mailBusy} onClick={sendQuoteMail}><Mail size={14}/> {mailBusy?'발송 중...':'견적서 메일발송'}</button><button className="secondary" disabled={pdfBusy} onClick={downloadPdf}><Download size={14}/> {pdfBusy?'PDF 생성 중...':'PDF 다운로드'}</button>{can&&<button className="dangerBtn" onClick={()=>void deleteQuote(selected)}><Trash2 size={14}/> 삭제</button>}<button className="primary" onClick={()=>window.print()}><Printer size={14}/> 인쇄</button></div>
+ <div className="syQuoteViewport" ref={quoteViewportRef} style={{height:quoteHeight?`${quoteHeight}px`:undefined}}>
+  <div className="syQuote syQuotePdfTemplate" ref={quoteRef} style={{transform:`scale(${quoteScale})`}}>
+   <img className="tplQuoteLogo" src="/email-signature-logo.jpg" alt="신양파트너스(주)"/>
+   <div className="tplQuoteTitle">견 적 서</div>
+   <div className="tplQuoteNo">No. {selected.quote_no}</div>
+<table className="tplQuoteInfoTable"><tbody>
+    <tr>
+     <td className="tplInput tplDate">{(()=>{const d=new Date(selected.quote_date||selected.created_at);return `${d.getFullYear()}년 ${String(d.getMonth()+1).padStart(2,'0')}월 ${String(d.getDate()).padStart(2,'0')}일`})()}</td>
+     <th>사업자<br/>번호</th><td colSpan={3}>{company.bizNo}</td>
+    </tr>
+    <tr>
+     <td className="tplInput tplCustomer">{selected.client?.name} 귀하</td>
+     <th>상 호</th><td className="tplCompanyName"><b>{company.name}</b></td><th>대표이사</th><td>{company.ceo} <span className="tplSeal">(인)</span></td>
+    </tr>
+    <tr>
+     <td className="tplReceiverSpacer">&nbsp;</td>
+     <th>소재지</th><td colSpan={3}>{company.address}</td>
+    </tr>
+    <tr>
+     <td className="tplReceiverSpacer tplReceiverTall">&nbsp;</td>
+     <th>업 태</th><td>{company.business}</td><th>종 목</th><td className="tplCategory">{company.category}</td>
+    </tr>
+    <tr>
+     <td className="tplInput tplReference">참조 : {selected.client?.contact_name||''}</td>
+     <th>담당자</th><td>팀장 {company.manager}</td><th>번 호</th><td className="tplPhone">{company.mobile}</td>
+    </tr>
+    <tr>
+     <td className="tplQuoteIntro">아래와 같이 견적합니다.</td><td colSpan={4}></td>
+    </tr>
+   </tbody></table>
+
+   <div className="tplQuoteTotal">
+    <span>합계 금액</span>
+    <strong>₩{Number(selected.total_amount).toLocaleString()}원정</strong>
+    <em>(VAT {selected.vat_mode==='별도'?'별도':selected.vat_mode==='면세'?'면세':'포함'})</em>
+   </div>
+
+   <table className="tplQuoteItems"><thead><tr><th>품 명</th><th>수 량</th><th>단 가</th><th>공급가액</th><th>세 액</th><th>비 고</th></tr></thead><tbody>
+    {selectedItems.map((x,i)=><tr key={x.id||i}><td className="tplInput">{x.item_name}</td><td className="tplInput">{Number(x.quantity).toLocaleString()}</td><td className="tplInput">{Number(x.unit_price).toLocaleString()}</td><td>{Number(x.supply_amount).toLocaleString()}</td><td>{Number(x.vat_amount).toLocaleString()}</td><td>{x.remark||''}</td></tr>)}
+    {Array.from({length:Math.max(0,8-selectedItems.length)}).map((_,i)=><tr key={'e'+i}><td>&nbsp;</td><td/><td/><td/><td/><td/></tr>)}
+   </tbody></table>
+
+   <div className="tplQuoteNotice">
+    <h3>유의사항</h3>
     {(selected.customer_note||selected.note||'').split('\n').map(x=>x.trim()).filter(Boolean).map((x,i)=>
-      <div className="syNoticeRow" key={i}>
-        <span className="syNoticeBullet">•</span>
-        <span>{x.replace(/^[▸▶•·-]\s*/, '')}</span>
-      </div>
+     <div className="tplNoticeRow" key={i}>▸ {x.replace(/^[▸▶•·-]\s*/, '')}</div>
     )}
-    <div className="syNoticeRow syNoticePayment">
-      <span className="syNoticeBullet">•</span>
-      <span><b>대금조건</b><span className="syNoticeColon"> : </span>{selected.payment_terms||'협의'}</span>
-    </div>
+    <div className="tplNoticeRow">▸ 대금조건 : {selected.payment_terms||'협의'}</div>
+   </div>
   </div>
-</div></div></div>
+ </div>
  </div></div>}</>
 }

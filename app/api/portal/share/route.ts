@@ -1,0 +1,4 @@
+import {NextResponse} from 'next/server'
+import {randomBytes} from 'crypto'
+import {requireInternalUser} from '@/lib/server-auth'
+export async function POST(req:Request){const a=await requireInternalUser(req,['ADMIN','MANAGER']);if(!a.ok)return NextResponse.json({error:a.error},{status:a.status});if(!a.admin)return NextResponse.json({error:'SUPABASE_SERVICE_ROLE_KEY 설정이 필요합니다.'},{status:500});const {project_id,days=30}=await req.json();const token=randomBytes(24).toString('hex');const expires=new Date(Date.now()+Number(days)*86400000).toISOString();await a.admin.from('portal_share').update({active:false}).eq('project_id',project_id).eq('active',true);const {error}=await a.admin.from('portal_share').insert({project_id,token,expires_at:expires,created_by:a.staff.id});if(error)return NextResponse.json({error:error.message},{status:500});return NextResponse.json({token,expires_at:expires})}

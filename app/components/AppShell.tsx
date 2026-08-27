@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Building2, LayoutDashboard, Users, FolderKanban, CheckSquare, WalletCards, LogOut, ClipboardCheck, Bell, Bot, FileText, UserCog, ReceiptText, FileSignature, Menu, X, Stamp, ShieldCheck, DatabaseBackup } from 'lucide-react'
+import { Building2, LayoutDashboard, Users, FolderKanban, CheckSquare, WalletCards, LogOut, ClipboardCheck, Bell, Bot, FileText, UserCog, ReceiptText, FileSignature, Menu, X, Stamp, ShieldCheck, DatabaseBackup, HardDrive } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAuth } from './AuthProvider'
 import { supabase } from '@/lib/supabase'
@@ -9,7 +9,7 @@ import { hasPermission } from '@/lib/types'
 import type { StaffPermissionKey } from '@/lib/types'
 
 const items:[string,string,any,StaffPermissionKey|null][]=[
- ['/dashboard','대시보드',LayoutDashboard,null],['/clients','거래처',Users,'clients'],['/projects','인허가 프로젝트',FolderKanban,'projects'],['/checklists','인허가 체크리스트',ClipboardCheck,'tasks'],['/tasks','업무',CheckSquare,'tasks'],['/finance','계약·수금',WalletCards,'finance'],['/quotes','견적서',ReceiptText,'quotes'],['/contracts','계약서',FileSignature,'quotes'],['/alerts','알림센터',Bell,null],['/documents','문서자동작성',FileText,'documents'],['/assistant','AI 업무비서',Bot,'documents'],['/approvals','전자결재',Stamp,'approvals'],['/audit','감사로그',ShieldCheck,'audit'],['/backup','백업·복원',DatabaseBackup,'backup'],['/staff','직원관리',UserCog,'staff_admin']
+ ['/dashboard','대시보드',LayoutDashboard,null],['/clients','거래처',Users,'clients'],['/projects','인허가 프로젝트',FolderKanban,'projects'],['/checklists','인허가 체크리스트',ClipboardCheck,'tasks'],['/tasks','업무',CheckSquare,'tasks'],['/files','자료실',HardDrive,'files'],['/finance','계약·수금',WalletCards,'finance'],['/quotes','견적서',ReceiptText,'quotes'],['/contracts','계약서',FileSignature,'quotes'],['/alerts','알림센터',Bell,null],['/documents','문서자동작성',FileText,'documents'],['/assistant','AI 업무비서',Bot,'documents'],['/approvals','전자결재',Stamp,'approvals'],['/audit','감사로그',ShieldCheck,'audit'],['/backup','백업·복원',DatabaseBackup,'backup'],['/staff','직원관리',UserCog,'staff_admin']
 ]
 
 export default function AppShell({children}:{children:React.ReactNode}){
@@ -31,7 +31,7 @@ export default function AppShell({children}:{children:React.ReactNode}){
    <header className="mobileHeader"><button className="iconOnly" onClick={()=>setOpen(true)} aria-label="메뉴 열기"><Menu size={22}/></button><div className="mobileBrand"><Building2 size={19}/><b>SHINYANG</b></div><Link className="mobileAlertButton" href="/alerts" aria-label={`알림 ${alertCount}건`}><Bell size={20}/>{alertCount>0&&<span>{alertCount>99?'99+':alertCount}</span>}</Link><button className="iconOnly" onClick={logout} aria-label="로그아웃"><LogOut size={20}/></button></header>
    {open&&<button className="drawerBackdrop" aria-label="메뉴 닫기" onClick={()=>setOpen(false)}/>} 
    <aside className={'sidebar '+(open?'open':'')}>
-    <div className="brand"><Building2 size={22}/><div><strong>SHINYANG</strong><small>업무자동화 v5.7.5</small></div><button className="drawerClose" onClick={()=>setOpen(false)} aria-label="메뉴 닫기"><X size={20}/></button></div>
+    <div className="brand"><Building2 size={22}/><div><strong>SHINYANG</strong><small>업무자동화 v5.12.7</small></div><button className="drawerClose" onClick={()=>setOpen(false)} aria-label="메뉴 닫기"><X size={20}/></button></div>
     <nav>{visibleItems.map(([href,label,Icon])=><Link key={href} href={href} onClick={()=>setOpen(false)} className={path===href||path.startsWith(href+'/')?'active':''}><span className="navIconWrap"><Icon size={18}/>{href==='/alerts'&&alertCount>0&&<i className="navBadge">{alertCount>99?'99+':alertCount}</i>}</span><span>{label}</span></Link>)}</nav>
     <div className="profile"><div><b>{staff.name}</b><small>{staff.department||'-'} · {staff.role}</small></div><button onClick={logout} title="로그아웃"><LogOut size={18}/></button></div>
    </aside>

@@ -1,6 +1,6 @@
 {
   "name": "shinyang-automation-v4",
-  "version": "5.11.3",
+  "version": "5.12.7",
   "private": true,
   "scripts": {
     "dev": "next dev",

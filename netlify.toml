@@ -8,12 +8,3 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[[redirects]]
-  from = "/"
-  to = "/login"
-  status = 302
-  force = true

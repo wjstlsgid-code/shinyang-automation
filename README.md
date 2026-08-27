@@ -84,3 +84,6 @@ Resend에서 발송 도메인을 인증하고 `RESEND_API_KEY`, `MAIL_FROM`을 �
 - Desktop: 좌측 고정 메뉴 + 4열 대시보드
 - 표는 작은 화면에서 안전하게 가로 스크롤, 모달은 모바일 바텀시트 형태
 - iOS safe-area 대응
+
+## v5.12.3 추가 적용
+직원별 메일서명과 전자결재 수정/삭제 기능을 쓰려면 Supabase SQL Editor에서 `shinyang-v5.12.3-staff-signature-approvals.sql`을 1회 실행하세요.
